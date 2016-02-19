@@ -19,7 +19,8 @@ import java.util.List;
  * Created by dell on 2015/9/9.
  */
 public class HttpTool {
-    public static final String PATH = "http://172.16.69.49:80/PurchasingAgent/servlet/";
+   // public static final String PATH = "http://172.16.69.49:80/PurchasingAgent/servlet/";
+   public static final String PATH = "http://www.ltdry.top/PurchasingAgent/servlet/";
     HttpURLConnection conn;
     URL url = null;
 

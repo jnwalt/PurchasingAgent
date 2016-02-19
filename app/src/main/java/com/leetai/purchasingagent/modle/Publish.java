@@ -2,7 +2,7 @@ package com.leetai.purchasingagent.modle;
 
 import java.util.Date;
 
-public class Public {
+public class Publish {
     private Integer id;
 
     private String title;

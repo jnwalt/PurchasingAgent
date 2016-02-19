@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_recomend"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bottom_tab_publish"
+                android:text="@string/bottom_tab_recommend"
                 android:textColor="@color/bottomtab_normal"
                 android:textSize="12sp" />
 
@@ -91,12 +91,12 @@
                 android:background="@drawable/btn_my"/>
 
             <TextView
-                android:id="@+id/tv_know"
+                android:id="@+id/tv_my"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv_my"
                 android:layout_centerHorizontal="true"
-                android:text="@string/bottom_tab_publish"
+                android:text="@string/bottom_tab_my"
                 android:textColor="@color/bottomtab_normal"
                 android:textSize="12sp" />
         </RelativeLayout>

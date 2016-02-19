@@ -102,11 +102,13 @@ public class RegistActivity extends Activity {
             msg = "注册成功";
         } else {
             msg = result;
+
         }
         try {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(RegistActivity.this, MainActivity.class));
-            SharedPreferencesTool.put(RegistActivity.this,"isLogin",true);
+            SharedPreferencesTool.put(RegistActivity.this, "isLogin", true);
+            SharedPreferencesTool.put(RegistActivity.this, "username", et_username.getText().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

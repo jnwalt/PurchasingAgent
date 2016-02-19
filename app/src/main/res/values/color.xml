@@ -3,7 +3,7 @@
 
     <color name="black" >#000</color>
     <color name="backgreen" >#8866ff00</color>
-    <color name="bottomtab_normal" >#8866ff00</color>
-
+    <color name="bottomtab_normal" >#000</color>
+    <color name="bottomtab_press" >#f00</color>
 
 </resources>

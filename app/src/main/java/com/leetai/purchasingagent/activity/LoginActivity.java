@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
+import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -96,13 +97,16 @@ public class LoginActivity extends Activity {
     }
 
     public void onSuccess(String result) {
-        if (result.equals("登陆成功")) {
+        if (result.equals("000")) {
+            ToastTool.showToast(this,"密码错误！");
+        } else if(result.equals("111")){
+            ToastTool.showToast(this, "用户名尚未注册！");
+        }else  {
             Intent intent = new Intent(this, MainActivity.class);
             SharedPreferencesTool.put(LoginActivity.this, "isLogin", true);
+            SharedPreferencesTool.put(LoginActivity.this, "username", et_username.getText().toString());
+            SharedPreferencesTool.put(LoginActivity.this, "userId",result);
             startActivity(intent);
-
-        } else {
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
         }
     }
 

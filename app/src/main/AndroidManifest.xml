@@ -19,18 +19,22 @@
             android:label="@string/title_activity_regist" >
         </activity>
         <activity
+            android:name=".activity.PublishActivity"
+            android:label="@string/title_activity_publish" >
+        </activity>
+        <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main" >
+
+        </activity>
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.WelcomeActivity"
-            android:label="@string/title_activity_welcome" >
-
         </activity>
     </application>
 
