@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class HttpTool {
    // public static final String PATH = "http://172.16.69.49:80/PurchasingAgent/servlet/";
-   public static final String PATH = "http://www.ltdry.top/PurchasingAgent/servlet/";
+   public static final String PATH = "http://192.168.31.101:8080/PurchasingAgent/servlet/";
     HttpURLConnection conn;
     URL url = null;
 

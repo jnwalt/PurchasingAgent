@@ -18,6 +18,7 @@ import com.leetai.purchasingagent.adapter.PublishListAdapter;
 import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
+import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -45,7 +46,8 @@ public class PublishListFragment extends Fragment {
     List<Publish> list_publish = new ArrayList<Publish>();
     List<Map<String, Object>> listmap;
     HashMap<String, Object> map;
-Button btn_iwantpublish;
+    Button btn_iwantpublish;
+
     public static PublishListFragment newInstance(String param1, String param2) {
         PublishListFragment fragment = new PublishListFragment();
         Bundle args = new Bundle();
@@ -80,14 +82,23 @@ Button btn_iwantpublish;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PublishActivity.class);
-                getActivity().startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
+        getList();
 
 
-        String url = HttpTool.getUrl("", "PublishListServlet");
+        return view;
+    }
+
+    private void getList() {
+
+        SharedPreferencesTool.get(getActivity(),"userId",0);
+        Log.i("获取userID=",SharedPreferencesTool.get(getActivity(),"userId",0)+"");
+        String url = HttpTool.getUrl(SharedPreferencesTool.get(getActivity(),"userId",0)+"", "PublishListServlet");
         HttpUtils http = new HttpUtils();
+        http.configCurrentHttpCacheExpiry(100);
         http.send(HttpRequest.HttpMethod.GET, url,
                 new RequestCallBack<String>() {
 
@@ -97,16 +108,7 @@ Button btn_iwantpublish;
                         Gson gson = new Gson();
                         list_publish = gson.fromJson(responseInfo.result, new TypeToken<List<Publish>>() {
                         }.getType());
-                       //list_publish = GsonTool.stringToList(responseInfo.result, Publish.class);
-//                        try {
-//                            for (int d = 0; d < list_publish.size(); d++) {
-//                                Log.i("test", list_publish.get(d).getTitle().toString());
-//                                Log.i("test", list_publish.get(d).getDescription().toString());
-//                                Log.i("test", list_publish.get(d).getPrice().toString());
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+                     Log.i("list_publish=",list_publish.size()+"");
                         listmap = new ArrayList<Map<String, Object>>();
                         for (int d = 0; d < list_publish.size(); d++) {
                             map = new HashMap<String, Object>();
@@ -127,9 +129,17 @@ Button btn_iwantpublish;
                     }
                 });
 
-
-        return view;
     }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Thread thread = new Thread();
+        try {
+            thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        getList();
+    }
 }

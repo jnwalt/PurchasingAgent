@@ -1,6 +1,7 @@
 package com.leetai.purchasingagent.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -58,7 +59,8 @@ public class PublishActivity extends Activity {
             Publish publish = getPublish(0);
             String str = GsonTool.classToJsonString(publish);
             saveOrPublish(str);
-            System.exit(0);
+            setResult(0);
+            finish();
         }
     }
     @OnClick(R.id.btn_publish)
@@ -68,7 +70,8 @@ public class PublishActivity extends Activity {
             Publish publish = getPublish(1);
             String str = GsonTool.classToJsonString(publish);
             saveOrPublish(str);
-            System.exit(0);
+            setResult(0);
+            finish();
         }
     }
 //    public static PublishActivity newInstance(String param1, String param2) {
@@ -94,50 +97,52 @@ public class PublishActivity extends Activity {
     }
 
 
-
-    private void init(View view) {
-
-
-        et_title = (EditText) view.findViewById(R.id.et_title);
-
-        et_description = (EditText) view.findViewById(R.id.et_description);
-
-        et_address = (EditText) view.findViewById(R.id.et_address);
-
-        et_price = (EditText) view.findViewById(R.id.et_price);
-
-        btn_save = (Button) view.findViewById(R.id.btn_save);
-
-        btn_publish = (Button) view.findViewById(R.id.btn_publish);
-
-
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // System.out.println(et_title.getText().toString());
-                if (checkEmpty()) {
-                    Publish publish = getPublish(0);
-                    String str = GsonTool.classToJsonString(publish);
-                    saveOrPublish(str);
-                   finish();
-                }
-            }
-        });
-        btn_publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // System.out.println(et_title.getText().toString());
-                if (checkEmpty()) {
-                    Publish publish = getPublish(1);
-                    String str = GsonTool.classToJsonString(publish);
-                    saveOrPublish(str);
-                    finish();
-                }
-
-            }
-        });
-
-    }
+//
+//    private void init(View view) {
+//
+//
+//        et_title = (EditText) view.findViewById(R.id.et_title);
+//
+//        et_description = (EditText) view.findViewById(R.id.et_description);
+//
+//        et_address = (EditText) view.findViewById(R.id.et_address);
+//
+//        et_price = (EditText) view.findViewById(R.id.et_price);
+//
+//        btn_save = (Button) view.findViewById(R.id.btn_save);
+//
+//        btn_publish = (Button) view.findViewById(R.id.btn_publish);
+//
+//
+//        btn_save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // System.out.println(et_title.getText().toString());
+//                if (checkEmpty()) {
+//                    Publish publish = getPublish(0);
+//                    String str = GsonTool.classToJsonString(publish);
+//                    saveOrPublish(str);
+//                    setResult(1,new Intent());
+//                   finish();
+//                }
+//            }
+//        });
+//        btn_publish.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // System.out.println(et_title.getText().toString());
+//                if (checkEmpty()) {
+//                    Publish publish = getPublish(1);
+//                    String str = GsonTool.classToJsonString(publish);
+//                    saveOrPublish(str);
+//                    setResult(1,new Intent());
+//                    finish();
+//                }
+//
+//            }
+//        });
+//
+//    }
 
     private boolean checkEmpty() {
         if (TextUtils.isEmpty(et_title.getText().toString())) {
@@ -179,11 +184,15 @@ public class PublishActivity extends Activity {
             publish.setAddTime(date);
 
             publish.setPublicFlag(i);
-            publish.setType("");
+            publish.setType("a");
             return publish;
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e)
+        {
             ToastTool.showToast(this, "请输入数字");
+            return publish;
+        }catch (Exception e1){
+            e1.printStackTrace();
             return publish;
         }
     }
@@ -201,6 +210,7 @@ public class PublishActivity extends Activity {
                         } else {
                             ToastTool.showToast(PublishActivity.this, "保存失败");
                         }
+
                     }
 
                     @Override
