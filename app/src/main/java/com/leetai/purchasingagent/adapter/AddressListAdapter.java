@@ -1,10 +1,10 @@
 package com.leetai.purchasingagent.adapter;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +12,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.activity.AddressActivity;
+import com.leetai.purchasingagent.activity.AddressListActivity;
 import com.leetai.purchasingagent.activity.PublishActivity;
+import com.leetai.purchasingagent.modle.Address;
 import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.tools.HttpTool;
-import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -26,30 +26,32 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dell on 2016-02-18.
+ * Created by dell on 2016-02-22.
  */
-public class PublishListAdapter extends BaseAdapter {
+public class AddressListAdapter extends BaseAdapter {
+    TextView tv_name;
+    TextView tv_phone;
+    TextView tv_region;
+    TextView tv_detail;
+
     Context context;
     List<Map<String, Object>> list;
-    TextView tv_title;
-    TextView tv_description;
-    TextView tv_price;
-    Button btn_remove;
-    Button btn_modify;
-    List<Publish> list_publish;
-    Fragment fragment;
+    List<Address> list_address;
 
-    public PublishListAdapter(Context context, List<Map<String, Object>> list, List<Publish> list_publish,Fragment fragment) {
+    Button btn_modify;
+    Button btn_remove;
+    Activity activity;
+
+    public AddressListAdapter(Context context, List<Map<String, Object>> list, List<Address> list_address, AddressListActivity activity) {
         this.context = context;
         this.list = list;
-        this.list_publish = list_publish;
-        this.fragment = fragment;
+        this.list_address = list_address;
+        this.activity = activity;
+
     }
 
     @Override
@@ -59,7 +61,7 @@ public class PublishListAdapter extends BaseAdapter {
 
     @Override
     public Map<String, Object> getItem(int position) {
-        return this.list.get(position);
+        return list.get(position);
     }
 
     @Override
@@ -69,16 +71,19 @@ public class PublishListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_publish_list, null);
-        tv_title = (TextView) view.findViewById(R.id.tv_title);
-        tv_description = (TextView) view.findViewById(R.id.tv_description);
-        tv_price = (TextView) view.findViewById(R.id.tv_price);
-        btn_remove = (Button) view.findViewById(R.id.btn_remove);
+        View view = LayoutInflater.from(context).inflate(R.layout.adapter_address_list, null);
+        tv_name = (TextView) view.findViewById(R.id.tv_name);
+        tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+        tv_region = (TextView) view.findViewById(R.id.tv_region);
+        tv_detail = (TextView) view.findViewById(R.id.tv_detail);
         btn_modify = (Button) view.findViewById(R.id.btn_modify);
-        tv_title.setText(getItem(position).get("tv_title").toString());
-        tv_description.setText(getItem(position).get("tv_description").toString());
-        tv_price.setText(getItem(position).get("tv_price").toString());
+        btn_remove = (Button) view.findViewById(R.id.btn_remove);
+
+
+        tv_name.setText(list.get(position).get("tv_name").toString());
+        tv_phone.setText(list.get(position).get("tv_phone").toString());
+        tv_region.setText(list.get(position).get("tv_region").toString());
+        tv_detail.setText(list.get(position).get("tv_detail").toString());
 
 
         btn_remove.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +91,7 @@ public class PublishListAdapter extends BaseAdapter {
             public void onClick(View v) {
                 //  SharedPreferencesTool.get(getActivity(), "userId", 0);
                 // Log.i("获取userID=",SharedPreferencesTool.get(getActivity(),"userId",0)+"");
-                String url = HttpTool.getUrl(new String[]{"delete", getItem(position).get("id").toString()}, "PublishServlet");
+                String url = HttpTool.getUrl(new String[]{"delete", getItem(position).get("id").toString()}, "AddressServlet");
                 HttpUtils http = new HttpUtils();
                 http.configCurrentHttpCacheExpiry(100);
                 http.send(HttpRequest.HttpMethod.GET, url,
@@ -110,22 +115,22 @@ public class PublishListAdapter extends BaseAdapter {
         btn_modify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PublishActivity.class);
+                Intent intent = new Intent(context, AddressActivity.class);
                 Bundle bundle = new Bundle();
                 // bundle.putSerializable("publish",getItemId(position));
-            //    System.out.println("publish.getID" + getListItem(position).getId());
-                bundle.putSerializable("publish", getListItem(position));
+                //    System.out.println("publish.getID" + getListItem(position).getId());
+                bundle.putSerializable("address", getListItem(position));
                 intent.putExtra("type", "modify");
                 intent.putExtra("bundle", bundle);
                 // intent.putExtra("id", getItem(position).get("id").toString());
-
-                fragment.startActivityForResult(intent, 0);
+                // context.startActivityForResult(intent, 0);
+                activity.startActivityForResult(intent, 0);
             }
         });
         return view;
     }
 
-    public Publish getListItem(int position) {
-        return this.list_publish.get(position);
+    public Address getListItem(int position) {
+        return this.list_address.get(position);
     }
 }

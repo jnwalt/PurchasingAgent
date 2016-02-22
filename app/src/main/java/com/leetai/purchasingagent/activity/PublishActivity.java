@@ -34,9 +34,10 @@ public class PublishActivity extends Activity {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
+    Publish publish;
     private String mParam1;
     private String mParam2;
+    String type = "";
 
     //
     @ViewInject(R.id.et_title)
@@ -56,10 +57,16 @@ public class PublishActivity extends Activity {
     public void saveClick(View v) {
         // System.out.println(et_title.getText().toString());
         if (checkEmpty()) {
-            Publish publish = getPublish(0);
-            String str = GsonTool.classToJsonString(publish);
+            Publish publishAdd = getPublish(0);
+            String str = GsonTool.classToJsonString(publishAdd);
             saveOrPublish(str);
             setResult(0);
+            Thread thread = new Thread();
+            try {
+                thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             finish();
         }
     }
@@ -68,10 +75,17 @@ public class PublishActivity extends Activity {
     public void publishClick(View v) {
         // System.out.println(et_title.getText().toString());
         if (checkEmpty()) {
-            Publish publish = getPublish(1);
-            String str = GsonTool.classToJsonString(publish);
+            Publish publishAdd = getPublish(1);
+            String str = GsonTool.classToJsonString(publishAdd);
             saveOrPublish(str);
             setResult(0);
+            Thread thread = new Thread();
+
+            try {
+                thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             finish();
         }
     }
@@ -93,56 +107,28 @@ public class PublishActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         ViewUtils.inject(this);
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
+        if (type.equals("modify")) {
 
+            Bundle bundle = intent.getBundleExtra("bundle");
+            publish = (Publish) bundle.getSerializable("publish");
+            // System.out.println("publish.getTitle().toString()=" + publish.getTitle().toString());
+            try {
+                et_title.setText(publish.getTitle().toString());
+                et_description.setText(publish.getDescription().toString());
+                et_price.setText(publish.getPrice().toString());
+                et_address.setText(publish.getAddress().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        // System.out.println("publisth.getID=" + publish.getId().toString());
 
     }
 
-
-    private void init(View view) {
-
-
-        et_title = (EditText) view.findViewById(R.id.et_title);
-
-        et_description = (EditText) view.findViewById(R.id.et_description);
-
-        et_address = (EditText) view.findViewById(R.id.et_address);
-
-        et_price = (EditText) view.findViewById(R.id.et_price);
-
-        btn_save = (Button) view.findViewById(R.id.btn_save);
-
-        btn_publish = (Button) view.findViewById(R.id.btn_publish);
-
-
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // System.out.println(et_title.getText().toString());
-                if (checkEmpty()) {
-                    Publish publish = getPublish(0);
-                    String str = GsonTool.classToJsonString(publish);
-                    saveOrPublish(str);
-                    setResult(1, new Intent());
-                    finish();
-                }
-            }
-        });
-        btn_publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // System.out.println(et_title.getText().toString());
-                if (checkEmpty()) {
-                    Publish publish = getPublish(1);
-                    String str = GsonTool.classToJsonString(publish);
-                    saveOrPublish(str);
-                    setResult(1, new Intent());
-                    finish();
-                }
-
-            }
-        });
-
-    }
 
     private boolean checkEmpty() {
         if (TextUtils.isEmpty(et_title.getText().toString())) {
@@ -168,33 +154,53 @@ public class PublishActivity extends Activity {
     }
 
     private Publish getPublish(int i) {
-        Publish publish = new Publish();
+        Publish publishNew = new Publish();
         try {
-
+            String url = "";
             Date date = new Date();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = format.format(date);
-            publish.setTitle(et_title.getText().toString());
-            publish.setDescription(et_description.getText().toString());
-            publish.setPrice(Double.parseDouble(et_price.getText().toString()));
-            publish.setAddress(et_address.getText().toString());
 
-            publish.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
+            publishNew.setTitle(et_title.getText().toString());
+            publishNew.setDescription(et_description.getText().toString());
+            publishNew.setPrice(Double.parseDouble(et_price.getText().toString()));
+            publishNew.setAddress(et_address.getText().toString());
 
-            publish.setAddTime(date);
+            if (type.equals("add")) {
+                publishNew.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
+                publishNew.setAddTime(date);
+                publishNew.setPublicFlag(i);
+                publishNew.setType("a");
+            } else if (type.equals("modify")) {
+                publishNew.setId(publish.getId());
+                publishNew.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
+                publishNew.setAddTime(publish.getAddTime());
+                publishNew.setPublicFlag(publish.getPublicFlag());
+                publishNew.setType("b");
+            }
 
-            publish.setPublicFlag(i);
-            publish.setType("");
-            return publish;
+
+            return publishNew;
 
         } catch (NumberFormatException e) {
             ToastTool.showToast(this, "请输入数字");
-            return publish;
+            return publishNew;
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            return publishNew;
         }
     }
 
     private void saveOrPublish(String str) {
-        String url = HttpTool.getUrl(new String[]{"save", str}, "PublishServlet");
+
+        String url = "";
+        if (type.equals("add")) {
+            url = HttpTool.getUrl(new String[]{"add", str}, "PublishServlet");
+        } else if (type.equals("modify")) {
+            url = HttpTool.getUrl(new String[]{"modify", str}, "PublishServlet");
+        }
+
+
         HttpUtils http = new HttpUtils();
         http.send(HttpRequest.HttpMethod.GET, url,
                 new RequestCallBack<String>() {
@@ -206,6 +212,7 @@ public class PublishActivity extends Activity {
                         } else {
                             ToastTool.showToast(PublishActivity.this, "保存失败");
                         }
+
                     }
 
                     @Override

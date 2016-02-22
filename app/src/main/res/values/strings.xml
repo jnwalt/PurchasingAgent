@@ -14,6 +14,8 @@
     <string name="bottom_tab_recommend">推荐</string>
     <string name="bottom_tab_publish">发布</string>
     <string name="bottom_tab_my">我的</string>
+    <string name="title_activity_address">AddressActivity</string>
+    <string name="title_activity_address_list">AddressListActivity</string>
 
 
 

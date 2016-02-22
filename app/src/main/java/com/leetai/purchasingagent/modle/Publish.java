@@ -1,8 +1,12 @@
 package com.leetai.purchasingagent.modle;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Publish {
+public class Publish implements Serializable{
     private Integer id;
 
     private String title;
@@ -102,4 +106,5 @@ public class Publish {
     public void setPublicFlag(Integer publicFlag) {
         this.publicFlag = publicFlag;
     }
+
 }

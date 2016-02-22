@@ -3,7 +3,8 @@
     package="com.leetai.purchasingagent" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,7 +13,6 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" >
-
         </activity>
         <activity
             android:name=".activity.RegistActivity"
@@ -25,7 +25,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main" >
-
         </activity>
         <activity
             android:name=".activity.WelcomeActivity"
@@ -35,6 +34,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.AddressActivity"
+            android:label="@string/title_activity_address" >
+        </activity>
+        <activity
+            android:name=".activity.AddressListActivity"
+            android:label="@string/title_activity_address_list" >
         </activity>
     </application>
 

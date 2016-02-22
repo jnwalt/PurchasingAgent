@@ -18,6 +18,7 @@ import com.leetai.purchasingagent.adapter.PublishListAdapter;
 import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
+import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -41,12 +42,12 @@ public class PublishListFragment extends Fragment {
     private String mParam2;
 
     PublishListAdapter publishListAdapter;
-    PublishListAdapter publishListAdapter1;
     ListView lv_publish;
     List<Publish> list_publish = new ArrayList<Publish>();
     List<Map<String, Object>> listmap;
     HashMap<String, Object> map;
     Button btn_iwantpublish;
+
 
     public static PublishListFragment newInstance(String param1, String param2) {
         PublishListFragment fragment = new PublishListFragment();
@@ -74,8 +75,13 @@ public class PublishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // System.out.println("onCreateViewPublish");
         View view = inflater.inflate(R.layout.fragment_publish_list, container, false);
+        init(view);
+        getList();
+        return view;
+    }
+
+    private void init(  View view ) {
         lv_publish = (ListView) view.findViewById(R.id.lv_publish);
         btn_iwantpublish = (Button) view.findViewById(R.id.btn_iwantpublish);
 
@@ -83,20 +89,21 @@ public class PublishListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), PublishActivity.class);
-                // getActivity().startActivity(intent);
-                 startActivityForResult(intent, 0);
+                intent.putExtra("type","add");
+                //intent.putExtra("id","0");
+                startActivityForResult(intent, 0);
             }
         });
 
-        getList();
-
-
-        return view;
     }
 
     private void getList() {
-        String url = HttpTool.getUrl("", "PublishListServlet");
+
+        SharedPreferencesTool.get(getActivity(), "userId", 0);
+       // Log.i("获取userID=",SharedPreferencesTool.get(getActivity(),"userId",0)+"");
+        String url = HttpTool.getUrl(SharedPreferencesTool.get(getActivity(),"userId",0)+"", "PublishListServlet");
         HttpUtils http = new HttpUtils();
+        http.configCurrentHttpCacheExpiry(100);
         http.send(HttpRequest.HttpMethod.GET, url,
                 new RequestCallBack<String>() {
 
@@ -106,28 +113,21 @@ public class PublishListFragment extends Fragment {
                         Gson gson = new Gson();
                         list_publish = gson.fromJson(responseInfo.result, new TypeToken<List<Publish>>() {
                         }.getType());
-                        //list_publish = GsonTool.stringToList(responseInfo.result, Publish.class);
-//                        try {
-//                            for (int d = 0; d < list_publish.size(); d++) {
-//                                Log.i("test", list_publish.get(d).getTitle().toString());
-//                                Log.i("test", list_publish.get(d).getDescription().toString());
-//                                Log.i("test", list_publish.get(d).getPrice().toString());
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
+                        //Log.i("list_publish=",list_publish.get()+"");
+                        for (int i = 0; i < list_publish.size(); i++) {
+                            Log.i("getTitle() =", list_publish.get(i).getTitle()  );
+                        }
                         listmap = new ArrayList<Map<String, Object>>();
                         for (int d = 0; d < list_publish.size(); d++) {
                             map = new HashMap<String, Object>();
                             map.put("tv_title", list_publish.get(d).getTitle());
                             map.put("tv_description", list_publish.get(d).getDescription());
                             map.put("tv_price", list_publish.get(d).getPrice());
-
+                            map.put("id", list_publish.get(d).getId());
                             listmap.add(map);
                         }
-                        publishListAdapter = new PublishListAdapter(getActivity(), listmap);
+                        publishListAdapter = new PublishListAdapter(getActivity(), listmap,list_publish,PublishListFragment.this);
                         lv_publish.setAdapter(publishListAdapter);
-                        System.out.println("setAdapter");
                     }
 
                     @Override
@@ -136,50 +136,14 @@ public class PublishListFragment extends Fragment {
 
                     }
                 });
+
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String url = HttpTool.getUrl("", "PublishListServlet");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.GET, url,
-                new RequestCallBack<String>() {
 
-                    @Override
-                    public void onSuccess(ResponseInfo<String> responseInfo) {
 
-                        Gson gson = new Gson();
-                        list_publish = gson.fromJson(responseInfo.result, new TypeToken<List<Publish>>() {
-                        }.getType());
-                        System.out.println("publishListAdaptersetAdapter"+list_publish.size());
-                        listmap = new ArrayList<Map<String, Object>>();
-                        for (int d = 0; d < list_publish.size(); d++) {
-                            map = new HashMap<String, Object>();
-                            map.put("tv_title", list_publish.get(d).getTitle());
-                            map.put("tv_description", list_publish.get(d).getDescription());
-                            map.put("tv_price", list_publish.get(d).getPrice());
-
-                            listmap.add(map);
-                        }
-                        publishListAdapter = new PublishListAdapter(getActivity(), listmap);
-                      //  publishListAdapter.notifyDataSetChanged();
-                        lv_publish.setAdapter(publishListAdapter);
-                        System.out.println("publishListAdaptersetAdapter");
-                    }
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        ToastTool.showToast(getActivity(), "连接失败，请检查网络连接！！！");
-
-                    }
-                });
+        getList();
     }
 }

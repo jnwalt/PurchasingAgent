@@ -68,6 +68,7 @@ public class LoginActivity extends Activity {
                             public void onFailure(HttpException error, String msg) {
 
                                 System.out.println("onFailure=" + msg);
+                                LoginActivity.this.onFailure(msg);
                             }
                         });
             }else {
@@ -105,9 +106,14 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, MainActivity.class);
             SharedPreferencesTool.put(LoginActivity.this, "isLogin", true);
             SharedPreferencesTool.put(LoginActivity.this, "username", et_username.getText().toString());
-            SharedPreferencesTool.put(LoginActivity.this, "userId",result);
+            SharedPreferencesTool.put(LoginActivity.this, "userId",Integer.parseInt(result));
+
             startActivity(intent);
         }
     }
+    public void onFailure(String result) {
 
+            ToastTool.showToast(this, "网络连接失败！");
+
+    }
 }
