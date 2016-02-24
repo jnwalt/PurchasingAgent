@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.activity.AddressListActivity;
+import com.leetai.purchasingagent.test.TestActivity;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 
 
@@ -23,7 +24,8 @@ public class MyFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
-
+    Button button;
+    Button btn_show;
     public static MyFragment newInstance(String param1, String param2) {
         MyFragment fragment = new MyFragment();
         Bundle args = new Bundle();
@@ -50,11 +52,18 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my, container, false);
-        Button button = (Button) view.findViewById(R.id.btn_logout);
+        button = (Button) view.findViewById(R.id.btn_logout);
+        btn_show = (Button) view.findViewById(R.id.btn_test);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferencesTool.put(getActivity(), "isLogin", false);
+            }
+        });
+        btn_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TestActivity.class));
             }
         });
         TextView tv = (TextView) view.findViewById(R.id.tv_address);

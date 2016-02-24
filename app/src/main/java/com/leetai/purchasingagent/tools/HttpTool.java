@@ -122,6 +122,7 @@ public class HttpTool {
     }
 
 
+
     private HttpURLConnection getConnection(String strurl) {
         try {
 //建立连接

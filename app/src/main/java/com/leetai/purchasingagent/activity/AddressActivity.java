@@ -2,11 +2,10 @@ package com.leetai.purchasingagent.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.modle.Address;
-import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
@@ -27,6 +25,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnTouch;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,6 +51,15 @@ public class AddressActivity extends Activity {
     @ViewInject(R.id.btn_save)
     Button btn_save;
 
+    @OnTouch(R.id.et_region)
+    public boolean regionClick(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            Intent intent = new Intent(AddressActivity.this, RegionProvinceActivity.class);
+            startActivity(intent);
+        }
+        return true;
+    }
+
     @OnClick(R.id.btn_save)
     public void saveClick(View view) {
         if (checkEmpty()) {
@@ -67,6 +75,7 @@ public class AddressActivity extends Activity {
             }
             finish();
         }
+
     }
 
 
@@ -100,6 +109,7 @@ public class AddressActivity extends Activity {
 
 
         }
+
     }
 
     private boolean checkEmpty() {
@@ -153,7 +163,7 @@ public class AddressActivity extends Activity {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = format.format(date);
             addressNew.setAddtime(date);
-        }else if (type.equals("modify"))  {
+        } else if (type.equals("modify")) {
             addressNew.setAddtime(address.getAddtime());
             addressNew.setId(address.getId());
         }
@@ -191,4 +201,11 @@ public class AddressActivity extends Activity {
                 });
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        String region = SharedPreferencesTool.get(AddressActivity.this, "region", "未找到").toString();
+       // Log.i("onRestart", region);
+        et_region.setText(region);
+    }
 }

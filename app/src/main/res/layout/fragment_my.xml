@@ -25,4 +25,11 @@
         android:clickable="true"
         android:textSize="22sp"
         android:text="管理收货地址"/>
+
+
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
