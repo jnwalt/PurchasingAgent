@@ -2,43 +2,54 @@ package com.leetai.purchasingagent.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.modle.Publish;
+import com.leetai.purchasingagent.tools.BitMapTool;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
+import com.leetai.purchasingagent.tools.ImageTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class PublishActivity extends Activity {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private int img_num = 0;
     Publish publish;
     private String mParam1;
     private String mParam2;
     String type = "";
-
+List<String> listString = new ArrayList<String>();
     //
     @ViewInject(R.id.et_title)
     EditText et_title;
@@ -52,6 +63,15 @@ public class PublishActivity extends Activity {
     Button btn_save;
     @ViewInject(R.id.btn_publish)
     Button btn_publish;
+    @ViewInject(R.id.im_pic1)
+    ImageView im_pic1;
+
+    @ViewInject(R.id.im_pic2)
+    ImageView im_pic2;
+
+    @ViewInject(R.id.im_pic3)
+    ImageView im_pic3;
+
 
     @OnClick(R.id.btn_save)
     public void saveClick(View v) {
@@ -69,6 +89,24 @@ public class PublishActivity extends Activity {
             }
             finish();
         }
+    }
+
+    @OnClick(R.id.im_pic1)
+    public void pick1Click(View v) {
+        ImageTool.showImagePickDialog(PublishActivity.this);
+        img_num = 1;
+    }
+
+    @OnClick(R.id.im_pic2)
+    public void pick2Click(View v) {
+        ImageTool.showImagePickDialog(PublishActivity.this);
+        img_num = 2;
+    }
+
+    @OnClick(R.id.im_pic3)
+    public void pick3Click(View v) {
+        ImageTool.showImagePickDialog(PublishActivity.this);
+        img_num = 3;
     }
 
     @OnClick(R.id.btn_publish)
@@ -89,18 +127,6 @@ public class PublishActivity extends Activity {
             finish();
         }
     }
-//    public static PublishActivity newInstance(String param1, String param2) {
-//        PublishActivity fragment = new PublishActivity();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    public PublishActivity() {
-//        // Required empty public constructor
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -192,17 +218,22 @@ public class PublishActivity extends Activity {
     }
 
     private void saveOrPublish(String str) {
-
-        String url = "";
-        if (type.equals("add")) {
-            url = HttpTool.getUrl(new String[]{"add", str}, "PublishServlet");
-        } else if (type.equals("modify")) {
-            url = HttpTool.getUrl(new String[]{"modify", str}, "PublishServlet");
+    String url = "";
+//        if (type.equals("add")) {
+//
+//        } else if (type.equals("modify")) {
+//            url = HttpTool.getUrl(new String[]{"modify", str}, "PublishServlet");
+//        }
+        url = HttpTool.getUrl("", "PublishServlet");
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("param1","add");
+        requestParams.addBodyParameter("param2",str);
+        for(int i=0;i<listString.size();i++) {
+            requestParams.addBodyParameter(i+"", new File(listString.get(i)));
         }
 
-
         HttpUtils http = new HttpUtils();
-        http.send(HttpRequest.HttpMethod.GET, url,
+        http.send(HttpRequest.HttpMethod.POST, url, requestParams,
                 new RequestCallBack<String>() {
 
                     @Override
@@ -224,5 +255,67 @@ public class PublishActivity extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ImageTool.REQUEST_CODE_FROM_ALBUM:
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String path = ImageTool.getImageAbsolutePath(PublishActivity.this, uri);
+                    listString.add(path);
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    bitmap = BitMapTool.cutToCrop(bitmap);
+                    switch (img_num) {
+                        case 0:
+                            break;
+                        case 1:
+                            im_pic1.setImageBitmap(bitmap);
+                            break;
+                        case 2:
+                            im_pic2.setImageBitmap(bitmap);
+                            break;
+                        case 3:
+                            im_pic3.setImageBitmap(bitmap);
+                            break;
+                        default:
+                            break;
 
+                    }
+                }
+                break;
+            case ImageTool.REQUEST_CODE_FROM_CAMERA:
+                //data.getData();  这样获取的bitmap是压缩图
+                if (resultCode == RESULT_CANCELED) {
+                    ImageTool.deleteImageUri(this, ImageTool.imageUriFromCamera);
+                } else {
+                    Uri imageUriCamera = ImageTool.imageUriFromCamera;
+                    Log.i("imageUriCamera=", imageUriCamera.toString());
+                    String path = ImageTool.getImageAbsolutePath(PublishActivity.this, imageUriCamera);
+                    Log.i("path=", path);
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    switch (img_num) {
+                        case 0:
+                            break;
+                        case 1:
+                            im_pic1.setImageBitmap(bitmap);
+                            break;
+                        case 2:
+                            im_pic2.setImageURI(imageUriCamera);
+                            break;
+                        case 3:
+                            im_pic3.setImageBitmap(bitmap);
+                            break;
+                        default:
+                            break;
+
+                    }
+                }
+
+
+                break;
+            default:
+                break;
+        }
+    }
 }
