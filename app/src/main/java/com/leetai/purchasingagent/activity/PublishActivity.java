@@ -1,6 +1,7 @@
 package com.leetai.purchasingagent.activity;
 
 import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,8 +25,13 @@ import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.ImageTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
+import com.lidroid.xutils.bitmap.BitmapGlobalConfig;
+import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
+import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -32,8 +39,12 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnTouch;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,14 +53,15 @@ import java.util.List;
 
 public class PublishActivity extends Activity {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final int REQUEST_CODE_FROM_ADDRESS = 1001;
+    String defaultAddress = "";
+
     private int img_num = 0;
     Publish publish;
-    private String mParam1;
-    private String mParam2;
+
     String type = "";
-List<String> listString = new ArrayList<String>();
+    List<ImageView> listimg = new ArrayList<ImageView>();
+    List<String> listString = new ArrayList<String>();
     //
     @ViewInject(R.id.et_title)
     EditText et_title;
@@ -72,6 +84,23 @@ List<String> listString = new ArrayList<String>();
     @ViewInject(R.id.im_pic3)
     ImageView im_pic3;
 
+    @OnTouch(R.id.et_address)
+    public boolean addTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            if (defaultAddress.equals("无")) {
+                Intent intent1 = new Intent(PublishActivity.this, AddressActivity.class);
+                intent1.putExtra("req_code", REQUEST_CODE_FROM_ADDRESS);
+                intent1.putExtra("type", "add");
+                startActivityForResult(intent1, REQUEST_CODE_FROM_ADDRESS);
+            } else {
+                et_address.setText(defaultAddress);
+            }
+        }
+        return true;
+
+
+    }
 
     @OnClick(R.id.btn_save)
     public void saveClick(View v) {
@@ -133,6 +162,10 @@ List<String> listString = new ArrayList<String>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         ViewUtils.inject(this);
+        listimg.add(im_pic1);
+        listimg.add(im_pic2);
+        listimg.add(im_pic3);
+        defaultAddress = SharedPreferencesTool.get(this, "defaultAddress", "无").toString();
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("modify")) {
@@ -145,16 +178,37 @@ List<String> listString = new ArrayList<String>();
                 et_description.setText(publish.getDescription().toString());
                 et_price.setText(publish.getPrice().toString());
                 et_address.setText(publish.getAddress().toString());
+
+
+              BitmapUtils bitmapUtils = new BitmapUtils(this);
+
+
+                for (int i = 0; i < Integer.parseInt(publish.getImg()); i++) {
+
+                  String path = "http://172.16.69.49:80/PurchasingAgent/Pic/ps/p/" + publish.getId() + "/" + publish.getUserId() + "/" + i + ".jpg";
+               bitmapUtils.display(listimg.get(i), path,new  CustomBitmapLoadCallBack());
+
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (type.equals("add")) {
 
 
         }
-        // System.out.println("publisth.getID=" + publish.getId().toString());
 
     }
+    public class CustomBitmapLoadCallBack extends
+            DefaultBitmapLoadCallBack<ImageView> {
+        @Override
+        public void onLoadCompleted(ImageView container, String uri,
+                                    Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
+            bitmap = BitMapTool.cutToCrop(bitmap);
+            container.setImageBitmap(bitmap);
+        }
 
+    }
 
     private boolean checkEmpty() {
         if (TextUtils.isEmpty(et_title.getText().toString())) {
@@ -197,11 +251,14 @@ List<String> listString = new ArrayList<String>();
                 publishNew.setAddTime(date);
                 publishNew.setPublicFlag(i);
                 publishNew.setType("a");
+                publishNew.setImg(listString.size() + "");
+
             } else if (type.equals("modify")) {
                 publishNew.setId(publish.getId());
                 publishNew.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
                 publishNew.setAddTime(publish.getAddTime());
                 publishNew.setPublicFlag(publish.getPublicFlag());
+                publishNew.setImg(publish.getImg());
                 publishNew.setType("b");
             }
 
@@ -218,7 +275,7 @@ List<String> listString = new ArrayList<String>();
     }
 
     private void saveOrPublish(String str) {
-    String url = "";
+        String url = "";
 //        if (type.equals("add")) {
 //
 //        } else if (type.equals("modify")) {
@@ -226,22 +283,24 @@ List<String> listString = new ArrayList<String>();
 //        }
         url = HttpTool.getUrl("", "PublishServlet");
         RequestParams requestParams = new RequestParams();
-        requestParams.addBodyParameter("param1","add");
-        requestParams.addBodyParameter("param2",str);
-        for(int i=0;i<listString.size();i++) {
-            requestParams.addBodyParameter(i+"", new File(listString.get(i)));
+        //  requestParams.setContentType("multipart/form-data");
+        requestParams.addBodyParameter("param1", type);
+        requestParams.addBodyParameter("param2", str);
+        for (int i = 0; i < listString.size(); i++) {
+            requestParams.addBodyParameter(i + "", new File(listString.get(i)));
         }
 
         HttpUtils http = new HttpUtils();
+
         http.send(HttpRequest.HttpMethod.POST, url, requestParams,
                 new RequestCallBack<String>() {
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                        if (!responseInfo.result.equals("fail")) {
+                        if (responseInfo.result.equals("success")) {
                             ToastTool.showToast(PublishActivity.this, "保存成功");
                         } else {
-                            ToastTool.showToast(PublishActivity.this, "保存失败");
+                            ToastTool.showToast(PublishActivity.this, responseInfo.result);
                         }
 
                     }
@@ -265,17 +324,32 @@ List<String> listString = new ArrayList<String>();
                     String path = ImageTool.getImageAbsolutePath(PublishActivity.this, uri);
                     listString.add(path);
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+                    bitmap = BitMapTool.getSmallBitmap(path);
                     bitmap = BitMapTool.cutToCrop(bitmap);
+//                    BitmapUtils bitmapUtils = new BitmapUtils(this);
+//
+//                    bitmapUtils.clearCache();
+                    // String path = "http://172.16.69.49:80/PurchasingAgent/Pic/ps/p/" + publish.getId() + "/" + publish.getUserId() + "/" + i + ".jpg";
+                    //  Log.i("path", path);
+                    // bitmapUtils.display(listimg.get(0), path);
+
+
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                     switch (img_num) {
                         case 0:
                             break;
                         case 1:
-                            im_pic1.setImageBitmap(bitmap);
+                            // bitmapUtils.display(im_pic1, path);
+                             im_pic1.setImageBitmap(bitmap);
                             break;
                         case 2:
+                            //  bitmapUtils.display(im_pic2, path);
                             im_pic2.setImageBitmap(bitmap);
                             break;
                         case 3:
+                            //  bitmapUtils.display(im_pic3, path);
                             im_pic3.setImageBitmap(bitmap);
                             break;
                         default:
@@ -311,11 +385,15 @@ List<String> listString = new ArrayList<String>();
 
                     }
                 }
-
-
+                break;
+            case REQUEST_CODE_FROM_ADDRESS:
+                Intent intent = getIntent();
+                String defaultAddress = intent.getStringExtra("defaultAddress");
+                et_address.setText(defaultAddress);
                 break;
             default:
                 break;
         }
     }
+
 }

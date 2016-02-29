@@ -34,7 +34,7 @@ import java.util.Date;
 public class AddressActivity extends Activity {
 
     Address address = new Address();
-
+private int    REQUEST_CODE;
     String type;
     @ViewInject(R.id.et_name)
     EditText et_name;
@@ -66,7 +66,11 @@ public class AddressActivity extends Activity {
             Address addressAdd = getAddress();
             String str = GsonTool.classToJsonString(addressAdd);
             save(str);
-            setResult(0);
+            String defaultAddress = addressAdd.getRegion()+"   "+addressAdd.getDetail()+"   "+addressAdd.getName()+"   "+addressAdd.getPhone();
+            SharedPreferencesTool.put(AddressActivity.this, "defaultAddress", defaultAddress);
+            Intent intent = new Intent();
+            intent.putExtra("defaultAddress",defaultAddress);
+            setResult(REQUEST_CODE,intent);
             Thread thread = new Thread();
             try {
                 thread.sleep(500);
@@ -85,6 +89,7 @@ public class AddressActivity extends Activity {
         setContentView(R.layout.activity_address);
         ViewUtils.inject(this);
         Intent intent = getIntent();
+        REQUEST_CODE = intent.getIntExtra("req_code",0);
         type = intent.getStringExtra("type");
 
         if (type.equals("modify")) {

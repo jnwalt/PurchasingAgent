@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AddressListActivity extends Activity {
+    private static final int REQUEST_CODE_FROM_ADDRESS = 1001;
     List<Address> list_address = new ArrayList<Address>();
     List<Map<String, Object>> listmap;
     HashMap<String, Object> map;
@@ -49,7 +50,8 @@ public class AddressListActivity extends Activity {
     public void addClick(View view) {
         Intent intent = new Intent(this, AddressActivity.class);
         intent.putExtra("type", "add");
-        startActivityForResult(intent, 0);
+        intent.putExtra("req_code", "req_code");
+        startActivityForResult(intent, REQUEST_CODE_FROM_ADDRESS);
     }
 
     @Override
