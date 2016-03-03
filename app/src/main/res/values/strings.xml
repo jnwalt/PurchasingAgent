@@ -20,6 +20,7 @@
     <string name="title_activity_region_city">RegionCityActivity</string>
     <string name="title_activity_region_area">RegionAreaActivity</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_bided_list">BidedListActivity</string>
 
 
 

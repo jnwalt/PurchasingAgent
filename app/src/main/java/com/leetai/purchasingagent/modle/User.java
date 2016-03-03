@@ -1,11 +1,17 @@
 package com.leetai.purchasingagent.modle;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable{
+    public User(int userId){
+        setUserId(userId);
+    }
     private Integer userId;
 
     private String username;
+
+    private String namedes;
 
     private String password;
 
@@ -18,6 +24,10 @@ public class User {
     private String useFlag;
 
     private String type;
+
+    private String country;
+
+    private Integer level;
 
     public Integer getUserId() {
         return userId;
@@ -33,6 +43,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username == null ? null : username.trim();
+    }
+
+    public String getNamedes() {
+        return namedes;
+    }
+
+    public void setNamedes(String namedes) {
+        this.namedes = namedes == null ? null : namedes.trim();
     }
 
     public String getPassword() {
@@ -81,5 +99,21 @@ public class User {
 
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 }

@@ -44,7 +44,10 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="删除" />
+        android:text="删除"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"/>
 
     <Button
         android:id="@+id/btn_modify"
@@ -52,6 +55,9 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/btn_remove"
-        android:text="编辑" />
+        android:text="编辑"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"/>
     </RelativeLayout>
 </LinearLayout>

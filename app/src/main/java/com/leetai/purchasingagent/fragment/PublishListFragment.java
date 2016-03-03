@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.activity.BidedListActivity;
 import com.leetai.purchasingagent.activity.PublishActivity;
 import com.leetai.purchasingagent.adapter.PublishListAdapter;
 import com.leetai.purchasingagent.modle.Publish;
@@ -83,6 +85,16 @@ public class PublishListFragment extends Fragment {
 
     private void init(  View view ) {
         lv_publish = (ListView) view.findViewById(R.id.lv_publish);
+        lv_publish.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //ToastTool.showToast(getActivity(),"test");
+                Intent intent = new Intent(getActivity(),BidedListActivity.class);
+               intent.putExtra("p_id",list_publish.get(position).getpId());
+
+                startActivity(intent);
+            }
+        });
         btn_iwantpublish = (Button) view.findViewById(R.id.btn_iwantpublish);
 
         btn_iwantpublish.setOnClickListener(new View.OnClickListener() {
@@ -115,15 +127,15 @@ public class PublishListFragment extends Fragment {
                         }.getType());
                         //Log.i("list_publish=",list_publish.get()+"");
                         for (int i = 0; i < list_publish.size(); i++) {
-                            Log.i("getTitle() =", list_publish.get(i).getTitle()  );
+                            Log.i("getTitle() =", list_publish.get(i).getpTitle()  );
                         }
                         listmap = new ArrayList<Map<String, Object>>();
                         for (int d = 0; d < list_publish.size(); d++) {
                             map = new HashMap<String, Object>();
-                            map.put("tv_title", list_publish.get(d).getTitle());
-                            map.put("tv_description", list_publish.get(d).getDescription());
-                            map.put("tv_price", list_publish.get(d).getPrice());
-                            map.put("id", list_publish.get(d).getId());
+                            map.put("tv_title", list_publish.get(d).getpTitle());
+                            map.put("tv_description", list_publish.get(d).getpDescription());
+                            map.put("tv_price", list_publish.get(d).getpPrice());
+                            map.put("id", list_publish.get(d).getpId());
                             listmap.add(map);
                         }
                         publishListAdapter = new PublishListAdapter(getActivity(), listmap,list_publish,PublishListFragment.this);

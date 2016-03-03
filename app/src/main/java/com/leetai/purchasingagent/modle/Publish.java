@@ -1,110 +1,114 @@
 package com.leetai.purchasingagent.modle;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.Date;
 
-public class Publish implements Serializable{
-    private Integer id;
+public class Publish implements Serializable {
+    private Integer pId;
 
-    private String title;
+    private String pTitle;
 
-    private String description;
+    private String pDescription;
 
-    private String type;
+    private String pType;
 
-    private Double price;
+    private Double pPrice;
 
-    private String img;
+    private String pImg;
 
-    private Integer userId;
+   // private Integer pUserId;
+private User pUser;
+    private String pAddress;
 
-    private String address;
+    private Date pAddTime;
 
-    private Date addTime;
+    private Integer pFlag;
 
-    private Integer publicFlag;
-
-    public Integer getId() {
-        return id;
+    public Integer getpId() {
+        return pId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setpId(Integer pId) {
+        this.pId = pId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getpTitle() {
+        return pTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+    public void setpTitle(String pTitle) {
+        this.pTitle = pTitle == null ? null : pTitle.trim();
     }
 
-    public String getDescription() {
-        return description;
+    public String getpDescription() {
+        return pDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+    public void setpDescription(String pDescription) {
+        this.pDescription = pDescription == null ? null : pDescription.trim();
     }
 
-    public String getType() {
-        return type;
+    public String getpType() {
+        return pType;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setpType(String pType) {
+        this.pType = pType == null ? null : pType.trim();
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getpPrice() {
+        return pPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setpPrice(Double pPrice) {
+        this.pPrice = pPrice;
     }
 
-    public String getImg() {
-        return img;
+    public String getpImg() {
+        return pImg;
     }
 
-    public void setImg(String img) {
-        this.img = img == null ? null : img.trim();
+    public void setpImg(String pImg) {
+        this.pImg = pImg == null ? null : pImg.trim();
     }
 
-    public Integer getUserId() {
-        return userId;
+//    public Integer getpUserId() {
+//        return pUserId;
+//    }
+//
+//    public void setpUserId(Integer pUserId) {
+//        this.pUserId = pUserId;
+//    }
+
+    public String getpAddress() {
+        return pAddress;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public User getpUser() {
+		return pUser;
+	}
+
+	public void setpUser(User pUser) {
+		this.pUser = pUser;
+	}
+
+	public void setpAddress(String pAddress) {
+        this.pAddress = pAddress == null ? null : pAddress.trim();
     }
 
-    public String getAddress() {
-        return address;
+    public Date getpAddTime() {
+        return pAddTime;
     }
 
-    public void setAddress(String address) {
-        this.address = address == null ? null : address.trim();
+    public void setpAddTime(Date pAddTime) {
+        this.pAddTime = pAddTime;
     }
 
-    public Date getAddTime() {
-        return addTime;
+    public Integer getpFlag() {
+        return pFlag;
     }
 
-    public void setAddTime(Date addTime) {
-        this.addTime = addTime;
+    public void setpFlag(Integer pFlag) {
+        this.pFlag = pFlag;
     }
-
-    public Integer getPublicFlag() {
-        return publicFlag;
-    }
-
-    public void setPublicFlag(Integer publicFlag) {
-        this.publicFlag = publicFlag;
-    }
-
 }

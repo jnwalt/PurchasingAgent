@@ -24,6 +24,9 @@ public class HttpTool {
     HttpURLConnection conn;
     URL url = null;
 
+    public static String getPicUrl( ) {
+        return "http://172.16.69.49:80/PurchasingAgent/";
+    }
     public static String getUrl(List<String> param, String servletPath) {
         //添加参数
         String url = "";

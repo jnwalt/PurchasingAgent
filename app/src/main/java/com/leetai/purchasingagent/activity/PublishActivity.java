@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.modle.Publish;
+import com.leetai.purchasingagent.modle.User;
 import com.leetai.purchasingagent.tools.BitMapTool;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
@@ -174,19 +175,19 @@ public class PublishActivity extends Activity {
             publish = (Publish) bundle.getSerializable("publish");
             // System.out.println("publish.getTitle().toString()=" + publish.getTitle().toString());
             try {
-                et_title.setText(publish.getTitle().toString());
-                et_description.setText(publish.getDescription().toString());
-                et_price.setText(publish.getPrice().toString());
-                et_address.setText(publish.getAddress().toString());
+                et_title.setText(publish.getpTitle().toString());
+                et_description.setText(publish.getpDescription().toString());
+                et_price.setText(publish.getpPrice().toString());
+                et_address.setText(publish.getpAddress().toString());
 
 
-              BitmapUtils bitmapUtils = new BitmapUtils(this);
+                BitmapUtils bitmapUtils = new BitmapUtils(this);
 
+              //  bitmapUtils.clearCache();
+                for (int i = 0; i < Integer.parseInt(publish.getpImg()); i++) {
 
-                for (int i = 0; i < Integer.parseInt(publish.getImg()); i++) {
-
-                  String path = "http://172.16.69.49:80/PurchasingAgent/Pic/ps/p/" + publish.getId() + "/" + publish.getUserId() + "/" + i + ".jpg";
-               bitmapUtils.display(listimg.get(i), path,new  CustomBitmapLoadCallBack());
+                    String path = HttpTool.getPicUrl() + "/Pic/ps/p/" + publish.getpId() + "/" + publish.getpUser().getUserId() + "/" + i + ".jpg";
+                    bitmapUtils.display(listimg.get(i), path, new CustomBitmapLoadCallBack());
 
                 }
 
@@ -199,6 +200,7 @@ public class PublishActivity extends Activity {
         }
 
     }
+
     public class CustomBitmapLoadCallBack extends
             DefaultBitmapLoadCallBack<ImageView> {
         @Override
@@ -241,25 +243,25 @@ public class PublishActivity extends Activity {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = format.format(date);
 
-            publishNew.setTitle(et_title.getText().toString());
-            publishNew.setDescription(et_description.getText().toString());
-            publishNew.setPrice(Double.parseDouble(et_price.getText().toString()));
-            publishNew.setAddress(et_address.getText().toString());
+            publishNew.setpTitle(et_title.getText().toString());
+            publishNew.setpDescription(et_description.getText().toString());
+            publishNew.setpPrice(Double.parseDouble(et_price.getText().toString()));
+            publishNew.setpAddress(et_address.getText().toString());
 
             if (type.equals("add")) {
-                publishNew.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
-                publishNew.setAddTime(date);
-                publishNew.setPublicFlag(i);
-                publishNew.setType("a");
-                publishNew.setImg(listString.size() + "");
+                publishNew.setpUser(new User((int) SharedPreferencesTool.get(this, "userId", 0)));
+                publishNew.setpAddTime(date);
+                publishNew.setpFlag(i);
+                publishNew.setpType("a");
+                publishNew.setpImg(listString.size() + "");
 
             } else if (type.equals("modify")) {
-                publishNew.setId(publish.getId());
-                publishNew.setUserId((int) SharedPreferencesTool.get(this, "userId", 0));
-                publishNew.setAddTime(publish.getAddTime());
-                publishNew.setPublicFlag(publish.getPublicFlag());
-                publishNew.setImg(publish.getImg());
-                publishNew.setType("b");
+                publishNew.setpId(publish.getpId());
+                publishNew.setpUser(new User((int) SharedPreferencesTool.get(this, "userId", 0)));
+                publishNew.setpAddTime(publish.getpAddTime());
+                publishNew.setpFlag(publish.getpFlag());
+                publishNew.setpImg(publish.getpImg());
+                publishNew.setpType("b");
             }
 
 
@@ -342,7 +344,7 @@ public class PublishActivity extends Activity {
                             break;
                         case 1:
                             // bitmapUtils.display(im_pic1, path);
-                             im_pic1.setImageBitmap(bitmap);
+                            im_pic1.setImageBitmap(bitmap);
                             break;
                         case 2:
                             //  bitmapUtils.display(im_pic2, path);
