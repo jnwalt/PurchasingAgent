@@ -64,6 +64,43 @@
             android:name=".activity.BidedListActivity"
             android:label="@string/title_activity_bided_list" >
         </activity>
+        <activity
+            android:name=".activity.OrderListActivity"
+            android:label="@string/title_activity_order_list" >
+        </activity>
+        <activity
+            android:name=".activity.OrderActivity"
+            android:label="@string/title_activity_order" >
+        </activity>
+        <activity
+            android:name=".activity.UserinfoActivity"
+            android:label="@string/title_activity_userinfo" >
+        </activity>
+        <activity
+            android:name=".activity.TelchangeActivity"
+            android:label="@string/title_activity_telchange" >
+        </activity>
+        <activity
+            android:name=".activity.EmailchangeActivity"
+            android:label="@string/title_activity_emailchange" >
+        </activity>
+        <activity
+            android:name=".activity.PasschangeActivity"
+            android:label="@string/title_activity_passchange" >
+        </activity>
+        <activity
+            android:name=".activity.CardActivity"
+            android:label="@string/title_activity_card" >
+        </activity>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/title_activity_setting" >
+        </activity>
+
+        <activity
+            android:name=".activity.UserQueryActivity"
+            android:label="@string/title_activity_user_query" >
+        </activity>
     </application>
 
 </manifest>

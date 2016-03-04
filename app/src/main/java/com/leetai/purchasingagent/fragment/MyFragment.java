@@ -8,24 +8,28 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
-import com.leetai.purchasingagent.activity.AddressListActivity;
-import com.leetai.purchasingagent.test.TestActivity;
-import com.leetai.purchasingagent.tools.SharedPreferencesTool;
-
+import com.leetai.purchasingagent.activity.SettingActivity;
+import com.leetai.purchasingagent.activity.UserinfoActivity;
+import com.leetai.purchasingagent.tools.MyImgBtn;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class MyFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private MyImgBtn MyIBtn1 = null;
+    private MyImgBtn MyIBtn2 = null;
+    private MyImgBtn MyIBtn3 = null;
+    TextView tv_accout;
 
+    TextView tv_setting;
     private String mParam1;
     private String mParam2;
-    Button button;
-    Button btn_show;
+
+
     public static MyFragment newInstance(String param1, String param2) {
         MyFragment fragment = new MyFragment();
         Bundle args = new Bundle();
@@ -36,7 +40,7 @@ public class MyFragment extends Fragment {
     }
 
     public MyFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -51,30 +55,39 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_my, container, false);
-        button = (Button) view.findViewById(R.id.btn_logout);
-        btn_show = (Button) view.findViewById(R.id.btn_test);
-        button.setOnClickListener(new View.OnClickListener() {
+        tv_accout = (TextView) view.findViewById(R.id.tv_accout);
+        tv_setting = (TextView) view.findViewById(R.id.tv_setting);
+        MyIBtn1 = (MyImgBtn) view.findViewById(R.id.MyImgBtn1);
+        MyIBtn1.setImageResource(R.drawable.launcher_bg);
+        MyIBtn1.setText("待付款");
+        MyIBtn1.setTextSize(13.0f);
+        MyIBtn2 = (MyImgBtn) view.findViewById(R.id.MyImgBtn2);
+        MyIBtn2.setImageResource(R.drawable.launcher_bg);
+        MyIBtn2.setText("待收货");
+        MyIBtn2.setTextSize(13.0f);
+        MyIBtn3 = (MyImgBtn) view.findViewById(R.id.MyImgBtn3);
+        MyIBtn3.setImageResource(R.drawable.launcher_bg);
+        MyIBtn3.setText("待评价");
+        MyIBtn3.setTextSize(13.0f);
+        tv_accout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferencesTool.put(getActivity(), "isLogin", false);
+                Intent intent = new Intent(getActivity(), UserinfoActivity.class);
+                startActivity(intent);
             }
         });
-        btn_show.setOnClickListener(new View.OnClickListener() {
+        tv_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), TestActivity.class));
-            }
-        });
-        TextView tv = (TextView) view.findViewById(R.id.tv_address);
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddressListActivity.class));
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
             }
         });
         return view;
     }
+
 
 
 }

@@ -80,13 +80,13 @@ public class BidedListAdapter extends BaseAdapter {
         // tv_username.setText(getItem(position).get("tv_username").toString());
         tv_price.setText(getItem(position).get("tv_price").toString());
         tv_s_address.setText(getItem(position).get("tv_s_address").toString());
-        p_id = (int) getItem(position).get("p_id");
+
         s_id = (int) getItem(position).get("s_id");
         btn_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String url = HttpTool.getUrl(new String[]{p_id + "", s_id + ""}, "MatchingServlet");
+                String url = HttpTool.getUrl(s_id + "", "MatchingServlet");
                 HttpUtils http = new HttpUtils();
                 //http.configCurrentHttpCacheExpiry(100);
                 http.send(HttpRequest.HttpMethod.GET, url,

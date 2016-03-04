@@ -73,7 +73,7 @@ BidedListAdapter bidedListAdapter;
                           //  map.put("tv_username", list_bid.get(d).getTitle());
                             map.put("tv_price", list_bid.get(d).getsPrice());
                             map.put("tv_s_address", list_bid.get(d).getsAddress());
-                            map.put("p_id", list_bid.get(d).getPublish().getpId());
+
                             map.put("s_id", list_bid.get(d).getsId());
                             listmap.add(map);
                         }

@@ -22,6 +22,18 @@
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_bided_list">BidedListActivity</string>
 
+    <string name="title_activity_order">OrderActivity</string>
+
+    <string name="title_activity_userinfo">我的账户</string>
+    <string name="title_activity_telchange">修改电话</string>
+    <string name="title_activity_emailchange">修改邮箱</string>
+    <string name="title_activity_passchange">修改密码</string>
+    <string name="title_activity_info">我的</string>
+    <string name="title_activity_card">CardActivity</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_order_list">OrderListActivity</string>
+    <string name="title_activity_order_info">OrderInfoActivity</string>
+    <string name="title_activity_user_query">UserQueryActivity</string>
 
 
 

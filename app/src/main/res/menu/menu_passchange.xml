@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.leetai.purchasingagent.activity.PasschangeActivity">
+    <item
+        android:id="@+id/passsave"
+        android:orderInCategory="100"
+        android:title="保存"
+        app:showAsAction="always" />
+</menu>

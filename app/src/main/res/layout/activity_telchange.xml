@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
+    android:layout_marginTop="16dp"
+    tools:context="com.leetai.purchasingagent.activity.TelchangeActivity"
+    android:orientation="vertical"
+
+    android:layout_gravity="top"
+>
+
+
+    <EditText
+        android:id="@+id/et_telnew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:inputType="phone"/>
+
+    <TextView
+        android:text="正确的电话号码方便客户联系你"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="left"
+        android:textSize="12dp"
+        android:textColor="@color/secondary_text_default_material_light" />
+
+</LinearLayout>
