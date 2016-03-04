@@ -3,94 +3,62 @@ package com.leetai.purchasingagent.modle;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Order implements Serializable {
- 
+public class Order   implements Serializable{
+	private Integer psId;
 
+	// private Integer sId;
 	private Bid bid;
- 
-	
-	
-	
-	 private Integer psId;
 
-	    private Integer pId;
+	private Date psAddTime;
 
-	   // private Integer sId;
+	private Integer psStatus;
 
-	    private Integer pUserId;
+	private String psExpressNo;
 
-	    private Integer sUserId;
+	public Integer getPsId() {
+		return psId;
+	}
 
-	    private Date psAddTime;
+	public void setPsId(Integer psId) {
+		this.psId = psId;
+	}
 
-	    private Integer psStatus;
+	// public Integer getsId() {
+	// return sId;
+	// }
+	//
+	// public void setsId(Integer sId) {
+	// this.sId = sId;
+	// }
+	public Bid getBid() {
+		return bid;
+	}
 
-	    private String psExpressNo;
+	public void setBid(Bid bid) {
+		this.bid = bid;
+	}
 
-		public Bid getBid() {
-			return bid;
-		}
+	public Date getPsAddTime() {
+		return psAddTime;
+	}
 
-		public void setBid(Bid bid) {
-			this.bid = bid;
-		}
+	public void setPsAddTime(Date psAddTime) {
+		this.psAddTime = psAddTime;
+	}
 
-		public Integer getPsId() {
-			return psId;
-		}
+	public Integer getPsStatus() {
+		return psStatus;
+	}
 
-		public void setPsId(Integer psId) {
-			this.psId = psId;
-		}
+	public void setPsStatus(Integer psStatus) {
+		this.psStatus = psStatus;
+	}
 
-		public Integer getpId() {
-			return pId;
-		}
+	public String getPsExpressNo() {
+		return psExpressNo;
+	}
 
-		public void setpId(Integer pId) {
-			this.pId = pId;
-		}
-
-		public Integer getpUserId() {
-			return pUserId;
-		}
-
-		public void setpUserId(Integer pUserId) {
-			this.pUserId = pUserId;
-		}
-
-		public Integer getsUserId() {
-			return sUserId;
-		}
-
-		public void setsUserId(Integer sUserId) {
-			this.sUserId = sUserId;
-		}
-
-		public Date getPsAddTime() {
-			return psAddTime;
-		}
-
-		public void setPsAddTime(Date psAddTime) {
-			this.psAddTime = psAddTime;
-		}
-
-		public Integer getPsStatus() {
-			return psStatus;
-		}
-
-		public void setPsStatus(Integer psStatus) {
-			this.psStatus = psStatus;
-		}
-
-		public String getPsExpressNo() {
-			return psExpressNo;
-		}
-
-		public void setPsExpressNo(String psExpressNo) {
-			this.psExpressNo = psExpressNo;
-		}
-
-	     
-
+	public void setPsExpressNo(String psExpressNo) {
+		this.psExpressNo = psExpressNo == null ? null : psExpressNo.trim();
+	}
 }

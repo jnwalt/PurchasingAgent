@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.activity.OrderListActivity;
 import com.leetai.purchasingagent.activity.SettingActivity;
 import com.leetai.purchasingagent.activity.UserinfoActivity;
 import com.leetai.purchasingagent.tools.MyImgBtn;
@@ -23,6 +24,7 @@ public class MyFragment extends Fragment {
     private MyImgBtn MyIBtn1 = null;
     private MyImgBtn MyIBtn2 = null;
     private MyImgBtn MyIBtn3 = null;
+    TextView tv_all_order;
     TextView tv_accout;
 
     TextView tv_setting;
@@ -57,8 +59,15 @@ public class MyFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_my, container, false);
+        init(view);
+
+        return view;
+    }
+
+    private void init(View view) {
         tv_accout = (TextView) view.findViewById(R.id.tv_accout);
         tv_setting = (TextView) view.findViewById(R.id.tv_setting);
+        tv_all_order= (TextView) view.findViewById(R.id.tv_all_order);
         MyIBtn1 = (MyImgBtn) view.findViewById(R.id.MyImgBtn1);
         MyIBtn1.setImageResource(R.drawable.launcher_bg);
         MyIBtn1.setText("待付款");
@@ -85,9 +94,14 @@ public class MyFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        return view;
+        tv_all_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OrderListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
 
 
 }
