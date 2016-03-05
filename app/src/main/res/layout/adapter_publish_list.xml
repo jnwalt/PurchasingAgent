@@ -40,6 +40,7 @@
         android:layout_height="wrap_content">
     <Button
         android:id="@+id/btn_remove"
+        style="@style/ButtonStyle"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
@@ -51,6 +52,7 @@
 
     <Button
         android:id="@+id/btn_modify"
+        style="@style/ButtonStyle"
         android:layout_width="60dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

@@ -16,8 +16,7 @@
 
     <Button
         android:id="@+id/btn_iwantpublish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/ButtonStyle"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

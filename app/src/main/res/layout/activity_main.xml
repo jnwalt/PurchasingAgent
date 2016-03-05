@@ -16,8 +16,8 @@
         android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tv_title"
-        android:layout_above="@+id/ll_buttom"></FrameLayout>
+        android:layout_above="@+id/ll_buttom"
+        android:layout_below="@+id/tv_title"></FrameLayout>
 
 
     <LinearLayout
@@ -30,14 +30,23 @@
             android:id="@+id/rl_recommend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.0">
-            <Button
+            android:layout_weight="1.0"
+            >
+
+            <!--<Button-->
+                <!--android:id="@+id/iv_recomend"-->
+                <!--style="@style/ButtonStyle"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/btn_recommend"-->
+                <!--android:contentDescription="@null" />-->
+            <ImageView
                 android:id="@+id/iv_recomend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@null"
-                android:background="@drawable/btn_recommend" />
+                android:src="@drawable/btn_recommend_nor"
+                android:clickable="true"/>
             <TextView
                 android:id="@+id/tv_recomend"
                 android:layout_width="wrap_content"
@@ -56,15 +65,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0">
 
-            <Button
+            <!--<Button-->
+                <!--android:id="@+id/iv_publish"-->
+                <!--style="@style/ButtonStyle"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:background="@drawable/btn_publish"-->
+                <!--android:contentDescription="@null"-->
+                <!--android:src="@drawable/btn_publish_nor" />-->
+            <ImageView
                 android:id="@+id/iv_publish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@null"
-                android:src="@drawable/btn_publish_nor"
-                android:background="@drawable/btn_publish"/>
-
+                android:src="@drawable/btn_publish_nor" />
             <TextView
                 android:id="@+id/tv_publish"
                 android:layout_width="wrap_content"
@@ -82,13 +96,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0">
 
-            <Button
+            <!--<Button-->
+            <!--android:id="@+id/iv_my"-->
+            <!--style="@style/ButtonStyle"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:contentDescription="@null"-->
+            <!--android:background="@drawable/btn_my"/>-->
+            <ImageView
                 android:id="@+id/iv_my"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@null"
-                android:background="@drawable/btn_my"/>
+                android:src="@drawable/btn_my_nor" />
 
             <TextView
                 android:id="@+id/tv_my"

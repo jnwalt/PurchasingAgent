@@ -24,9 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tv_price"
         android:layout_centerVertical="true"/>
-    tv_s_address
+
     <Button
         android:id="@+id/btn_choose"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

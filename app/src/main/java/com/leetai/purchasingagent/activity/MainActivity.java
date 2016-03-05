@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
@@ -27,11 +28,11 @@ public class MainActivity extends Activity {
     RecommendFragment recommendFragment;
     MyFragment myFragment;
     @ViewInject(R.id.iv_recomend)
-    Button btn_recomend;
+    ImageView btn_recomend;
     @ViewInject(R.id.iv_publish)
-    Button btn_publish;
+    ImageView btn_publish;
     @ViewInject(R.id.iv_my)
-    Button btn_my;
+    ImageView btn_my;
 
     @ViewInject(R.id.tv_recomend)
     TextView tv_recomend;
@@ -48,9 +49,9 @@ public class MainActivity extends Activity {
         }
 
         addOrShowFragment(recommendFragment);
-        btn_recomend.setBackgroundResource(R.drawable.btn_recommend_pre);
-        btn_publish.setBackgroundResource(R.drawable.btn_publish_nor);
-        btn_my.setBackgroundResource(R.drawable.btn_my_nor);
+        btn_recomend.setImageResource(R.drawable.btn_recommend_pre);
+        btn_publish.setImageResource(R.drawable.btn_publish_nor);
+        btn_my.setImageResource(R.drawable.btn_my_nor);
         tv_recomend.setTextColor(getResources().getColor(R.color.bottomtab_press));
         tv_publish.setTextColor(getResources().getColor(R.color.bottomtab_normal));
         tv_my.setTextColor(getResources().getColor(R.color.bottomtab_normal));
@@ -62,9 +63,9 @@ public class MainActivity extends Activity {
             publishListFragment = PublishListFragment.newInstance("", "");
         }
         addOrShowFragment(publishListFragment);
-        btn_recomend.setBackgroundResource(R.drawable.btn_recommend_nor);
-        btn_publish.setBackgroundResource(R.drawable.btn_publish_pre);
-        btn_my.setBackgroundResource(R.drawable.btn_my_nor);
+        btn_recomend.setImageResource(R.drawable.btn_recommend_nor);
+        btn_publish.setImageResource(R.drawable.btn_publish_pre);
+        btn_my.setImageResource(R.drawable.btn_my_nor);
         tv_recomend.setTextColor(getResources().getColor(R.color.bottomtab_normal));
         tv_publish.setTextColor(getResources().getColor(R.color.bottomtab_press));
         tv_my.setTextColor(getResources().getColor(R.color.bottomtab_normal));
@@ -79,9 +80,9 @@ public class MainActivity extends Activity {
         addOrShowFragment(myFragment);
 
 
-        btn_recomend.setBackgroundResource(R.drawable.btn_recommend_nor);
-        btn_publish.setBackgroundResource(R.drawable.btn_publish_nor);
-        btn_my.setBackgroundResource(R.drawable.btn_my_pre);
+        btn_recomend.setImageResource(R.drawable.btn_recommend_nor);
+        btn_publish.setImageResource(R.drawable.btn_publish_nor);
+        btn_my.setImageResource(R.drawable.btn_my_pre);
         tv_recomend.setTextColor(getResources().getColor(R.color.bottomtab_normal));
         tv_publish.setTextColor(getResources().getColor(R.color.bottomtab_normal));
         tv_my.setTextColor(getResources().getColor(R.color.bottomtab_press));
