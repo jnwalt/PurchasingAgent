@@ -19,14 +19,17 @@ import java.util.List;
  * Created by dell on 2015/9/9.
  */
 public class HttpTool {
-   // public static final String PATH = "http://172.16.69.49:80/PurchasingAgent/servlet/";
-    public static final String PATH = "http://192.168.31.101:8080/PurchasingAgent/servlet/";
-    //  public static final String PATH = "http://www.ltdry.top:8080/PurchasingAgent/servlet/";
+    public static final String BasePATH = "http://172.16.69.49:80/PurchasingAgent";
+    ///public static final String PATH = "http://192.168.31.101:8080/PurchasingAgent/";
+    //  public static final String PATH = "http://www.ltdry.top:8080/PurchasingAgent/";
+    private static final String PATH = BasePATH+"/servlet/";
+    private static final String PicPATH = BasePATH+"/Pic";
+
     HttpURLConnection conn;
     URL url = null;
 
     public static String getPicUrl( ) {
-        return "http://192.168.31.101:8080/PurchasingAgent/";
+        return PicPATH;
     }
     public static String getUrl(List<String> param, String servletPath) {
         //添加参数

@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.modle.Publish;
@@ -165,6 +167,8 @@ public class PublishActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         ViewUtils.inject(this);
+        initTitle();
+
         listimg.add(im_pic1);
         listimg.add(im_pic2);
         listimg.add(im_pic3);
@@ -185,10 +189,11 @@ public class PublishActivity extends Activity {
 
                 BitmapUtils bitmapUtils = new BitmapUtils(this);
 
-              //  bitmapUtils.clearCache();
+                //  bitmapUtils.clearCache();
                 for (int i = 0; i < Integer.parseInt(publish.getpImg()); i++) {
 
-                    String path = HttpTool.getPicUrl() + "/Pic/ps/p/" + publish.getpId() + "/" + publish.getpUser().getUserId() + "/" + i + ".jpg";
+                    String path = HttpTool.getPicUrl() + "/ps/p/" + publish.getpId() + "/" + publish.getpUser().getUserId() + "/" + i + ".jpg";
+                    Log.i("图片地址", path);
                     bitmapUtils.display(listimg.get(i), path, new CustomBitmapLoadCallBack());
 
                 }
@@ -201,6 +206,39 @@ public class PublishActivity extends Activity {
 
         }
 
+    }
+
+    private void initTitle() {
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.in_title);
+        TextView tv_title = (TextView) rl.findViewById(R.id.tv_title);
+        TextView tv_setting = (TextView) rl.findViewById(R.id.tv_setting);
+        tv_title.setText("发布");
+        ImageView iv_back = (ImageView) rl.findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        tv_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkEmpty()) {
+                    Publish publishAdd = getPublish(1);
+                    String str = GsonTool.classToJsonString(publishAdd);
+                    saveOrPublish(str);
+                    setResult(1001);
+                    Thread thread = new Thread();
+
+                    try {
+                        thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    finish();
+                }
+            }
+        });
     }
 
     public class CustomBitmapLoadCallBack extends
@@ -279,12 +317,13 @@ public class PublishActivity extends Activity {
     }
 
     private void saveOrPublish(String str) {
-        String url = "";
+
 //        if (type.equals("add")) {
 //
 //        } else if (type.equals("modify")) {
 //            url = HttpTool.getUrl(new String[]{"modify", str}, "PublishServlet");
 //        }
+        String url = "";
         url = HttpTool.getUrl("", "PublishServlet");
         RequestParams requestParams = new RequestParams();
         //  requestParams.setContentType("multipart/form-data");
@@ -328,19 +367,9 @@ public class PublishActivity extends Activity {
                     String path = ImageTool.getImageAbsolutePath(PublishActivity.this, uri);
                     listString.add(path);
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
-
                     bitmap = BitMapTool.getSmallBitmap(path);
                     bitmap = BitMapTool.cutToCrop(bitmap);
-//                    BitmapUtils bitmapUtils = new BitmapUtils(this);
-//
-//                    bitmapUtils.clearCache();
-                    // String path = "http://172.16.69.49:80/PurchasingAgent/Pic/ps/p/" + publish.getId() + "/" + publish.getUserId() + "/" + i + ".jpg";
-                    //  Log.i("path", path);
-                    // bitmapUtils.display(listimg.get(0), path);
 
-
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                     switch (img_num) {
                         case 0:
                             break;

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+<color name="white">#fff</color>
     <color name="black" >#000</color>
     <color name="backgreen" >#8866ff00</color>
     <color name="bottomtab_normal" >#000</color>
     <color name="bottomtab_press" >#f00</color>
-    <color name="base_color" >#b8f1ed</color>
+    <color name="base_color" >#ff9b6a</color>
     <color name="text_color" >#525F62</color>
+    <color name="divider_color" >#e9e9e9</color>
+    <color name="Title_color" >#E4E4E4</color>
+    <color name="Gap_color" >#E4E4E4</color>
 </resources>

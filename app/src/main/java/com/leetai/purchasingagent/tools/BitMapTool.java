@@ -1,11 +1,19 @@
 package com.leetai.purchasingagent.tools;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import com.lidroid.xutils.BitmapUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,7 +23,43 @@ import java.net.URL;
  * Created by dell on 2016-02-26.
  */
 public class BitMapTool {
-    /**     * 按正方形裁切图片
+
+
+    private BitMapTool() {
+    }
+
+    private static BitmapUtils bitmapUtils;
+
+    public static BitmapUtils getBitmapUtils(Context appContext) {
+        if (bitmapUtils == null) {
+            bitmapUtils = new BitmapUtils(appContext);
+        }
+        return bitmapUtils;
+    }
+
+    public static String saveBitmapToLocal(Bitmap bitmap, String fileName) {
+        String path = "/sdcard/PurchasingAgent/User";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        file = new File(fileName + ".png");
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+            Log.i("测试", "已经保存");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return path + fileName+".png";
+    }
+
+    /**
+     * 按正方形裁切图片
      */
     public static Bitmap cutToCrop(Bitmap bitmap) {
         int w = bitmap.getWidth(); // 得到图片的宽，高
@@ -43,26 +87,27 @@ public class BitMapTool {
         options.inJustDecodeBounds = false;
 
         Bitmap bm = BitmapFactory.decodeFile(filePath, options);
-        if(bm == null){
-            return  null;
+        if (bm == null) {
+            return null;
         }
 
-        ByteArrayOutputStream baos = null ;
-        try{
+        ByteArrayOutputStream baos = null;
+        try {
             baos = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.JPEG, 30, baos);
 
-        }finally{
+        } finally {
             try {
-                if(baos != null)
-                    baos.close() ;
+                if (baos != null)
+                    baos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return bm ;
+        return bm;
 
     }
+
     private static int calculateInSampleSize(BitmapFactory.Options options,
                                              int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -87,37 +132,34 @@ public class BitMapTool {
 
         return inSampleSize;
     }
+
     /**
      * 得到本地或者网络上的bitmap url - 网络或者本地图片的绝对路径,比如:
-     *
+     * <p/>
      * A.网络路径: url="http://blog.foreverlove.us/girl2.png" ;
-     *
+     * <p/>
      * B.本地路径:url="file://mnt/sdcard/photo/image.png";
-     *
+     * <p/>
      * C.支持的图片格式 ,png, jpg,bmp,gif等等
      *
      * @param url
      * @return
      */
-    public static Bitmap getLocalOrNetBitmap(String url)
-    {
+    public static Bitmap getLocalOrNetBitmap(String url) {
         Bitmap bitmap = null;
         InputStream in = null;
         BufferedOutputStream out = null;
-        try
-        {
-            in = new BufferedInputStream(new URL(url).openStream(),2*1024);
+        try {
+            in = new BufferedInputStream(new URL(url).openStream(), 2 * 1024);
             final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream, 2*1024);
-           // copy(in, out);
+            out = new BufferedOutputStream(dataStream, 2 * 1024);
+            // copy(in, out);
             out.flush();
             byte[] data = dataStream.toByteArray();
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
             data = null;
             return bitmap;
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -130,4 +172,21 @@ public class BitMapTool {
 //            out.write(b, 0, read);
 //        }
 //    }
+
+    public static Bitmap compressQualityImage(Bitmap image) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 10;//每次都减少10
+        }
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
+        Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+        return bitmap;
+    }
+
+
 }

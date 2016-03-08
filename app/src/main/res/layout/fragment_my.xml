@@ -5,9 +5,10 @@
     android:layout_marginLeft="0dp"
     android:layout_marginRight="0dp"
     android:layout_marginTop="0dp"
-    tools:context="com.leetai.purchasingagent.fragment.MyFragment">
     android:orientation="vertical"
-    android:layout_gravity="top">
+    android:layout_gravity="top"
+    tools:context="com.leetai.purchasingagent.fragment.MyFragment">
+  >
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -28,8 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-
-                android:background="#8f1b81"
+                android:background="@color/base_color"
                 android:clickable="true"
                 android:gravity="left"
                 android:orientation="horizontal"
@@ -47,7 +47,8 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:gravity="right"
-                        android:src="@drawable/launcher_bg" />
+                        android:src="@drawable/launcher_bg"
+                        android:clickable="true"/>
 
                     <TextView
                         android:id="@+id/tv_username"
@@ -84,7 +85,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="20dip"
-                android:background="#546a4690" />
+                android:background="@color/Gap_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,7 +120,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
-                android:background="#FF909090" />
+                android:background="@color/Gap_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,7 +166,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="20dip"
-                android:background="#546a4690" />
+                android:background="@color/Gap_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -198,7 +199,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
-                android:background="#546a4690" />
+                android:background="@color/Gap_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -261,7 +262,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="20dip"
-                android:background="#546a4690" />
+                android:background="@color/Gap_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -288,7 +289,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
-                android:background="#FF909090" />
+                android:background="@color/Gap_color" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

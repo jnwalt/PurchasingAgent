@@ -2,6 +2,7 @@ package com.leetai.purchasingagent.tools;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -15,7 +16,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,6 +58,29 @@ public class ImageTool {
         }).show();
     }
 
+    public static void showImagePickDialogFragment(  final Fragment fragment) {
+
+        String title = "选取方式";
+        String[] str = new String[]{"拍照", "相册"};
+        new AlertDialog.Builder(fragment.getActivity()).setTitle(title).setItems(str, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                switch (which) {
+                    case 0:
+                        pickImageFromCamera(fragment);
+                        break;
+                    case 1:
+                        pickImageFromAlbum(fragment);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+        }).show();
+    }
 
     public static void pickImageFromAlbum(Activity activity) {
         Intent intent = new Intent();
@@ -65,7 +88,12 @@ public class ImageTool {
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         activity.startActivityForResult(intent, REQUEST_CODE_FROM_ALBUM);
     }
-
+    public static void pickImageFromAlbum(Fragment fragment) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        fragment.startActivityForResult(intent, REQUEST_CODE_FROM_ALBUM);
+    }
     public static void pickImageFromAlbum2(Activity activity) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -76,12 +104,20 @@ public class ImageTool {
     public static void pickImageFromCamera(Activity activity) {
 
         imageUriFromCamera = createImageUri(activity);
-       // System.out.println("imageUriFromCamera="+imageUriFromCamera.toString());
-      //  Log.i("imageUriFromCamera=",imageUriFromCamera.toString());
+        // System.out.println("imageUriFromCamera="+imageUriFromCamera.toString());
+        //  Log.i("imageUriFromCamera=",imageUriFromCamera.toString());
         Intent intent = new Intent();
         intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFromCamera);
         activity.startActivityForResult(intent, REQUEST_CODE_FROM_CAMERA);
+    }
+    public static void pickImageFromCamera(Fragment fragment) {
+
+        imageUriFromCamera = createImageUri(fragment.getActivity());
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUriFromCamera);
+        fragment.startActivityForResult(intent, REQUEST_CODE_FROM_CAMERA);
     }
 
     public static Uri createImageUri(Context context) {

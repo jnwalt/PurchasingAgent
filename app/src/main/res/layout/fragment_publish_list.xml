@@ -4,12 +4,18 @@
     android:layout_height="match_parent"
     tools:context="com.leetai.purchasingagent.fragment.PublishListFragment">
 
+    <include
+        android:id="@+id/in_title"
+        layout="@layout/view_title" />
+
     <ListView
         android:id="@+id/lv_publish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_iwantpublish"
-        android:layout_alignParentTop="true">
+        android:layout_below="@+id/in_title"
+        android:divider="@color/divider_color"
+        android:dividerHeight="20dp">
 
     </ListView>
 

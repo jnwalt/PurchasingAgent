@@ -6,10 +6,10 @@
     </style>
     <style name="TitleStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/base_color</item>
+        <item name="android:background">@color/Title_color</item>
         <item name="android:textColor">@color/text_color</item>
 
     </style>
@@ -26,28 +26,38 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
-    <!--<style name="EditTextStyle">-->
-        <!--<item name="android:layout_width">match_parent</item>-->
-        <!--<item name="android:layout_height">wrap_content</item>-->
-        <!--<item name="android:background">@drawable/et_bg</item>-->
-        <!--<item name="android:textColor">@color/text_color</item>-->
-        <!--<item name="android:layout_marginTop">10dp</item>-->
-        <!--<item name="android:layout_marginLeft">10dp</item>-->
-        <!--<item name="android:layout_marginRight">10dp</item>-->
-        <!--<item name="android:paddingTop">10dp</item>-->
-        <!--<item name="android:paddingLeft">10dp</item>-->
-        <!--<item name="android:paddingRight">10dp</item>-->
-        <!--<item name="android:paddingBottom">10dp</item>-->
-    <!--</style>-->
+    <style name="SmallButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/btn_bg</item>
+        <item name="android:textColor">@color/base_color</item>
+        <!--<item name="android:layout_marginTop">5dp</item>-->
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+
+    </style>
     <style name="ButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
          <!--<item name="android:background">@color/base_color</item>-->
-        <item name="android:layout_marginTop">10dp</item>
+        <!--<item name="android:layout_marginTop">10dp</item>-->
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:background">@drawable/btn_bg</item>
 
     </style>
+
+    <style name="ThumbnailStyle">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:background">@color/base_color</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+
+    </style>
+
 </resources>

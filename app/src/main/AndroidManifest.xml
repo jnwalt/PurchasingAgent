@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".activity.PublishActivity"
-            android:label="@string/title_activity_publish" >
+            android:label="@string/title_activity_publish"
+            android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
         <activity
             android:name=".activity.MainActivity"
@@ -32,7 +33,6 @@
             android:label="@string/title_activity_welcome" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
