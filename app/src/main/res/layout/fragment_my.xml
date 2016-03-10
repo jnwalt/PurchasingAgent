@@ -8,8 +8,10 @@
     android:orientation="vertical"
     android:layout_gravity="top"
     tools:context="com.leetai.purchasingagent.fragment.MyFragment">
-  >
 
+    <include
+        android:id="@+id/in_title"
+        layout="@layout/view_my_title" />
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -136,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_gravity="top|center_horizontal"
-                    android:layout_weight="0.33"
+                    android:layout_weight="0.25"
                     android:clickable="true"
                     android:divider="#84130f"
                     android:focusable="true" />
@@ -146,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_gravity="top|center_horizontal"
-                    android:layout_weight="0.33"
+                    android:layout_weight="0.25"
                     android:clickable="true"
                     android:focusable="true"
                     android:showDividers="beginning" />
@@ -156,10 +158,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:layout_gravity="top|center_horizontal"
-                    android:layout_weight="0.33"
+                    android:layout_weight="0.25"
                     android:clickable="true"
                     android:focusable="true" />
 
+                <com.leetai.purchasingagent.tools.MyImgBtn
+                    android:id="@+id/MyImgBtn4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_weight="0.25"
+                    android:clickable="true"
+                    android:focusable="true" />
 
             </LinearLayout>
 

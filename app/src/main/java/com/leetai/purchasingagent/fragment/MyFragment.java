@@ -49,6 +49,7 @@ public class MyFragment extends Fragment {
     private MyImgBtn MyIBtn1 = null;
     private MyImgBtn MyIBtn2 = null;
     private MyImgBtn MyIBtn3 = null;
+    private MyImgBtn MyIBtn4 = null;
     TextView tv_all_order;
     TextView tv_accout;
     TextView tv_setting;
@@ -109,17 +110,21 @@ public class MyFragment extends Fragment {
         tv_setting = (TextView) view.findViewById(R.id.tv_setting);
         tv_all_order = (TextView) view.findViewById(R.id.tv_all_order);
         MyIBtn1 = (MyImgBtn) view.findViewById(R.id.MyImgBtn1);
-        MyIBtn1.setImageResource(R.drawable.launcher_bg);
+        MyIBtn1.setImageResource(R.drawable.my_pay);
         MyIBtn1.setText("待付款");
         MyIBtn1.setTextSize(13.0f);
         MyIBtn2 = (MyImgBtn) view.findViewById(R.id.MyImgBtn2);
-        MyIBtn2.setImageResource(R.drawable.launcher_bg);
-        MyIBtn2.setText("待收货");
+        MyIBtn2.setImageResource(R.drawable.my_send);
+        MyIBtn2.setText("待发货");
         MyIBtn2.setTextSize(13.0f);
         MyIBtn3 = (MyImgBtn) view.findViewById(R.id.MyImgBtn3);
-        MyIBtn3.setImageResource(R.drawable.launcher_bg);
-        MyIBtn3.setText("待评价");
+        MyIBtn3.setImageResource(R.drawable.my_receive);
+        MyIBtn3.setText("待收货");
         MyIBtn3.setTextSize(13.0f);
+        MyIBtn4 = (MyImgBtn) view.findViewById(R.id.MyImgBtn4);
+        MyIBtn4.setImageResource(R.drawable.my_good);
+        MyIBtn4.setText("待评价");
+        MyIBtn4.setTextSize(13.0f);
         tv_accout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
