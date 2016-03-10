@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,6 +18,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.activity.BidedListActivity;
 import com.leetai.purchasingagent.activity.PublishActivity;
@@ -50,12 +54,12 @@ public class PublishListFragment extends Fragment {
     private String mParam2;
 
     PublishListAdapter publishListAdapter;
-    ListView lv_publish;
+    PullToRefreshListView lv_publish;
     List<Publish> list_publish = new ArrayList<Publish>();
     List<Map<String, Object>> listmap;
     HashMap<String, Object> map;
     Button btn_iwantpublish;
-
+    int lastPostion;
 
     public static PublishListFragment newInstance(String param1, String param2) {
         PublishListFragment fragment = new PublishListFragment();
@@ -87,34 +91,62 @@ public class PublishListFragment extends Fragment {
         init(view);
         initTitle(view);
         getList();
-
         return view;
     }
 
     private void init(View view) {
-        lv_publish = (ListView) view.findViewById(R.id.lv_publish);
+        lv_publish = (PullToRefreshListView) view.findViewById(R.id.lv_publish);
+        lv_publish.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                getList();
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+        });
+
+
         BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(getActivity());
-        lv_publish.setOnScrollListener(new PauseOnScrollListener(bitmapUtils, true, true));
+        lv_publish.setOnScrollListener(new PauseOnScrollListener(bitmapUtils, true, true, new customerListener()));
         lv_publish.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), BidedListActivity.class);
-                intent.putExtra("p_id", list_publish.get(position).getpId());
+                intent.putExtra("p_id", list_publish.get(position-1).getpId());
+                Log.i("点击item获取pid",list_publish.get(position-1).getpId()+"");
                 startActivity(intent);
             }
         });
-        btn_iwantpublish = (Button) view.findViewById(R.id.btn_iwantpublish);
-        btn_iwantpublish.setVisibility(View.GONE);
-        btn_iwantpublish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PublishActivity.class);
-                intent.putExtra("type", "add");
-                //intent.putExtra("id","0");
-                startActivityForResult(intent, 0);
-            }
-        });
+//        btn_iwantpublish = (Button) view.findViewById(R.id.btn_iwantpublish);
+//        btn_iwantpublish.setVisibility(View.GONE);
+//        btn_iwantpublish.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), PublishActivity.class);
+//                intent.putExtra("type", "add");
+//                //intent.putExtra("id","0");
+//                startActivityForResult(intent, 0);
+//            }
+//        });
 
+    }
+
+    public class customerListener implements AbsListView.OnScrollListener {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+               // lastPostion = lv_publish.getScrollY();
+            }
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        }
     }
 
     private void getList() {
@@ -149,6 +181,8 @@ public class PublishListFragment extends Fragment {
                         }
                         publishListAdapter = new PublishListAdapter(getActivity(), listmap, list_publish, PublishListFragment.this);
                         lv_publish.setAdapter(publishListAdapter);
+
+                        lv_publish.onRefreshComplete();
                     }
 
                     @Override
@@ -163,9 +197,11 @@ public class PublishListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1001) {
+        if (resultCode == 1) {
             getList();
+
         }
+
     }
 
     private void initTitle(View view) {
@@ -185,5 +221,12 @@ public class PublishListFragment extends Fragment {
                                           }
                                       }
         );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       // lv_publish.setScrollY(lastPostion);
+
     }
 }

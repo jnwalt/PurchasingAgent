@@ -3,23 +3,35 @@ package com.leetai.purchasingagent.adapter;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.activity.OrderActivity;
 import com.leetai.purchasingagent.activity.PublishActivity;
 import com.leetai.purchasingagent.modle.Bid;
 import com.leetai.purchasingagent.modle.Publish;
+import com.leetai.purchasingagent.tools.BitMapTool;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
+import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
+import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -41,6 +53,7 @@ public class BidedListAdapter extends BaseAdapter {
     TextView tv_s_address;
     TextView tv_price;
     Button btn_choose;
+ImageView iv_head;
 
     List<Bid> list_bided;
     Fragment fragment;
@@ -76,25 +89,36 @@ public class BidedListAdapter extends BaseAdapter {
         tv_username = (TextView) view.findViewById(R.id.tv_username);
         tv_price = (TextView) view.findViewById(R.id.tv_price);
         btn_choose = (Button) view.findViewById(R.id.btn_choose);
+        iv_head= (ImageView) view.findViewById(R.id.iv_head);
 
-        // tv_username.setText(getItem(position).get("tv_username").toString());
+        tv_username.setText(getItem(position).get("tv_username").toString());
         tv_price.setText(getItem(position).get("tv_price").toString());
         tv_s_address.setText(getItem(position).get("tv_s_address").toString());
 
-        s_id = (int) getItem(position).get("s_id");
+        BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(context);
+        String path  = Tools.getUserHeadURL(Tools.getUserId(context)) ;
+        bitmapUtils.display(iv_head, path, new CustomBitmapLoadCallBack());
+
+
+
+
         btn_choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                s_id = (int) getItem(position).get("s_id");
                 String url = HttpTool.getUrl(s_id + "", "MatchingServlet");
                 HttpUtils http = new HttpUtils();
-                //http.configCurrentHttpCacheExpiry(100);
+                http.configCurrentHttpCacheExpiry(100);
                 http.send(HttpRequest.HttpMethod.GET, url,
                         new RequestCallBack<String>() {
 
                             @Override
                             public void onSuccess(ResponseInfo<String> responseInfo) {
                                 ToastTool.showToast(context, "成功！");
+                                Intent intent = new Intent(context, OrderActivity.class);
+                                intent.putExtra("type","0");
+                                intent.putExtra("sId",s_id+"");
+                                context.startActivity(intent);
                             }
 
                             @Override
@@ -111,5 +135,24 @@ public class BidedListAdapter extends BaseAdapter {
 
     public Bid getListItem(int position) {
         return this.list_bided.get(position);
+    }
+
+    public class CustomBitmapLoadCallBack extends
+            DefaultBitmapLoadCallBack<ImageView> {
+        @Override
+        public void onLoadCompleted(ImageView container, String uri,
+                                    Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
+            bitmap = BitMapTool.compressQualityImage(bitmap);
+            bitmap = BitMapTool.cutToRound(bitmap);
+            container.setImageBitmap(bitmap);
+        }
+
+        @Override
+        public void onLoadFailed(ImageView container, String uri, Drawable drawable) {
+            super.onLoadFailed(container, uri, drawable);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.defaulthad);
+            bitmap = BitMapTool.cutToRound(bitmap);
+            container.setImageBitmap(bitmap);
+        }
     }
 }

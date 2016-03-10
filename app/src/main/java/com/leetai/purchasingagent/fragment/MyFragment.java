@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,11 @@ import com.leetai.purchasingagent.tools.ImageTool;
 import com.leetai.purchasingagent.tools.MyImgBtn;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
+import com.lidroid.xutils.bitmap.BitmapGlobalConfig;
 import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
 import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
 import com.lidroid.xutils.exception.HttpException;
@@ -49,10 +52,12 @@ public class MyFragment extends Fragment {
     TextView tv_all_order;
     TextView tv_accout;
     TextView tv_setting;
+    TextView tv_username;
     ImageView iv_head;
     private String mParam1;
     private String mParam2;
-    BitmapUtils bitmapUtils ;
+    BitmapUtils bitmapUtils;
+    int userId;
 
     public static MyFragment newInstance(String param1, String param2) {
         MyFragment fragment = new MyFragment();
@@ -86,26 +91,19 @@ public class MyFragment extends Fragment {
         return view;
     }
 
-    public class CustomBitmapLoadCallBack extends
-            DefaultBitmapLoadCallBack<ImageView> {
-        @Override
-        public void onLoadCompleted(ImageView container, String uri,
-                                    Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
-            Log.i("onLoadCompleted uri", uri);
-            Bitmap bitmap1 = bitmapUtils.getBitmapFromMemCache(uri, config);
-            iv_head.setImageBitmap(bitmap1);
-        }
-
-        @Override
-        public void onLoadFailed(ImageView container, String uri, Drawable drawable) {
-            super.onLoadFailed(container, uri, drawable);
-            Log.i("onLoadFailed uri", uri);
-        }
-    }
-
 
     private void init(View view) {
+        userId = Tools.getUserId(getActivity());
         iv_head = (ImageView) view.findViewById(R.id.iv_head);
+        BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(getActivity());
+        String path = Tools.getUserHeadPath(userId);
+        bitmapUtils.clearCache(path);
+        bitmapUtils.display(iv_head, path,new CustomBitmapLoadCallBack());
+
+
+
+        tv_username= (TextView) view.findViewById(R.id.tv_username);
+        tv_username.setText(Tools.getUserName(getActivity()));
 
         tv_accout = (TextView) view.findViewById(R.id.tv_accout);
         tv_setting = (TextView) view.findViewById(R.id.tv_setting);
@@ -144,73 +142,22 @@ public class MyFragment extends Fragment {
             }
         });
 
-        iv_head.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               ImageTool.showImagePickDialogFragment(MyFragment.this);
 
-            }
-        });
 
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case ImageTool.REQUEST_CODE_FROM_ALBUM:
-                if (data != null) {
-                    Uri uri = data.getData();
-                    String path = ImageTool.getImageAbsolutePath(getActivity(), uri);
-                    Bitmap bitmap = BitmapFactory.decodeFile(path);
-                    bitmap = BitMapTool.getSmallBitmap(path);
-                   String newPath = BitMapTool.saveBitmapToLocal(bitmap, (int)SharedPreferencesTool.get(getActivity(),"userId",0)+"");
-                    bitmap = BitMapTool.cutToCrop(bitmap);
-                    iv_head.setImageBitmap(bitmap);
-                     saveHeadOnLine(newPath);
-
-
-
-                }
-                break;
-            case ImageTool.REQUEST_CODE_FROM_CAMERA:
-
-                break;
-            default:
-                break;
+    public class CustomBitmapLoadCallBack extends
+            DefaultBitmapLoadCallBack<ImageView> {
+        @Override
+        public void onLoadCompleted(ImageView container, String uri,
+                                    Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
+            bitmap = BitMapTool.cutToRound(bitmap);
+            container.setImageBitmap(bitmap);
         }
 
-    }
-
-    private void saveHeadOnLine( String path) {
-        String url = "";
-        url = HttpTool.getUrl("", "userHeadServlet");
-        RequestParams requestParams = new RequestParams();
-        requestParams.addBodyParameter("param1", "add");
-        requestParams.addBodyParameter("head", new File(path));
-
-        HttpUtils http = new HttpUtils();
-
-        http.send(HttpRequest.HttpMethod.POST, url, requestParams,
-                new RequestCallBack<String>() {
-
-                    @Override
-                    public void onSuccess(ResponseInfo<String> responseInfo) {
-                        if (responseInfo.result.equals("success")) {
-                            ToastTool.showToast(getActivity(), "保存成功");
-                        } else {
-                            ToastTool.showToast(getActivity(), responseInfo.result);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(HttpException error, String msg) {
-                        ToastTool.showToast(getActivity(), "连接失败，请检查网络连接！！！");
-
-                    }
-                });
-
+        @Override
+        public void onLoadFailed(ImageView container, String uri, Drawable drawable) {
+            super.onLoadFailed(container, uri, drawable);
+            container.setImageResource(R.drawable.defaulthad);
+        }
     }
 }

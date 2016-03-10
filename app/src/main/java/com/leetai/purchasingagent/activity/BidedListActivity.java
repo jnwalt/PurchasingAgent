@@ -38,15 +38,16 @@ public class BidedListActivity extends Activity {
     int p_id;
     List<Map<String, Object>> listmap;
     HashMap<String, Object> map;
-BidedListAdapter bidedListAdapter;
+    BidedListAdapter bidedListAdapter;
     List<Bid> list_bid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bided_list);
         ViewUtils.inject(this);
-        Intent intent =getIntent();
-        p_id = intent.getIntExtra("p_id",0);
+        Intent intent = getIntent();
+        p_id = intent.getIntExtra("p_id", 0);
         getList();
     }
 
@@ -54,7 +55,7 @@ BidedListAdapter bidedListAdapter;
 
         SharedPreferencesTool.get(BidedListActivity.this, "userId", 0);
         // Log.i("获取userID=",SharedPreferencesTool.get(BidedListActivity.this,"userId",0)+"");
-        String url = HttpTool.getUrl( p_id + "", "PBidedServlet");
+        String url = HttpTool.getUrl(p_id + "", "PBidedServlet");
         HttpUtils http = new HttpUtils();
         http.configCurrentHttpCacheExpiry(100);
         http.send(HttpRequest.HttpMethod.GET, url,
@@ -70,14 +71,14 @@ BidedListAdapter bidedListAdapter;
                         listmap = new ArrayList<Map<String, Object>>();
                         for (int d = 0; d < list_bid.size(); d++) {
                             map = new HashMap<String, Object>();
-                          //  map.put("tv_username", list_bid.get(d).getTitle());
+                            //  map.put("tv_username", list_bid.get(d).getTitle());
                             map.put("tv_price", list_bid.get(d).getsPrice());
                             map.put("tv_s_address", list_bid.get(d).getsAddress());
-
+                            map.put("tv_username", list_bid.get(d).getsUser().getUsername());
                             map.put("s_id", list_bid.get(d).getsId());
                             listmap.add(map);
                         }
-                        bidedListAdapter = new BidedListAdapter(BidedListActivity.this, listmap, list_bid );
+                        bidedListAdapter = new BidedListAdapter(BidedListActivity.this, listmap, list_bid);
                         lv_bided.setAdapter(bidedListAdapter);
                     }
 

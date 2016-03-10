@@ -1,5 +1,7 @@
 package com.leetai.purchasingagent.tools;
 
+import android.util.Log;
+
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.BufferedReader;
@@ -103,7 +105,7 @@ public class HttpTool {
                 sb.append("?");
                 sb.append("param1=").append(URLEncoder.encode(param, "utf-8"));
             }
-            System.out.println("Http连接为：" + sb.toString());
+            Log.i("Http连接为：", sb.toString());
             return sb.toString();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

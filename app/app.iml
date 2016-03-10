@@ -95,5 +95,7 @@
     <orderEntry type="library" exported="" name="xUtils-2.6.14" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-22.2.1" level="project" />
+    <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
+    <orderEntry type="module" module-name="PullToRefresh" exported="" />
   </component>
 </module>

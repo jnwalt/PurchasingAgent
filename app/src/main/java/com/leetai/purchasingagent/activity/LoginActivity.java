@@ -105,7 +105,7 @@ public class LoginActivity extends Activity {
         }else  {
             Intent intent = new Intent(this, MainActivity.class);
             SharedPreferencesTool.put(LoginActivity.this, "isLogin", true);
-            SharedPreferencesTool.put(LoginActivity.this, "username", et_username.getText().toString());
+            SharedPreferencesTool.put(LoginActivity.this, "userName", et_username.getText().toString());
             SharedPreferencesTool.put(LoginActivity.this, "userId",Integer.parseInt(result));
 
             startActivity(intent);

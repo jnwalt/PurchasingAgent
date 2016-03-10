@@ -8,21 +8,20 @@
         android:id="@+id/in_title"
         layout="@layout/view_title" />
 
-    <ListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv_publish"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/btn_iwantpublish"
         android:layout_below="@+id/in_title"
         android:divider="@color/divider_color"
-        android:dividerHeight="20dp">
-
-    </ListView>
+        android:dividerHeight="20dp" />
 
 
     <Button
         android:id="@+id/btn_iwantpublish"
         style="@style/ButtonStyle"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -34,7 +34,6 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
-import com.lidroid.xutils.bitmap.BitmapGlobalConfig;
 import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
 import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
 import com.lidroid.xutils.exception.HttpException;
@@ -45,6 +44,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lidroid.xutils.view.annotation.event.OnTouch;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -107,23 +107,23 @@ public class PublishActivity extends Activity {
 
     }
 
-    @OnClick(R.id.btn_save)
-    public void saveClick(View v) {
-        // System.out.println(et_title.getText().toString());
-        if (checkEmpty()) {
-            Publish publishAdd = getPublish(0);
-            String str = GsonTool.classToJsonString(publishAdd);
-            saveOrPublish(str);
-            setResult(0);
-            Thread thread = new Thread();
-            try {
-                thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            finish();
-        }
-    }
+//    @OnClick(R.id.btn_save)
+//    public void saveClick(View v) {
+//        // System.out.println(et_title.getText().toString());
+//        if (checkEmpty()) {
+//            Publish publishAdd = getPublish(0);
+//            String str = GsonTool.classToJsonString(publishAdd);
+//            saveOrPublish(str);
+//            setResult(1);
+//            Thread thread = new Thread();
+//            try {
+//                thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            finish();
+//        }
+//    }
 
     @OnClick(R.id.im_pic1)
     public void pick1Click(View v) {
@@ -143,24 +143,24 @@ public class PublishActivity extends Activity {
         img_num = 3;
     }
 
-    @OnClick(R.id.btn_publish)
-    public void publishClick(View v) {
-        // System.out.println(et_title.getText().toString());
-        if (checkEmpty()) {
-            Publish publishAdd = getPublish(1);
-            String str = GsonTool.classToJsonString(publishAdd);
-            saveOrPublish(str);
-            setResult(0);
-            Thread thread = new Thread();
-
-            try {
-                thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            finish();
-        }
-    }
+//    @OnClick(R.id.btn_publish)
+//    public void publishClick(View v) {
+//        // System.out.println(et_title.getText().toString());
+//        if (checkEmpty()) {
+//            Publish publishAdd = getPublish(1);
+//            String str = GsonTool.classToJsonString(publishAdd);
+//            saveOrPublish(str);
+//            setResult(0);
+//            Thread thread = new Thread();
+//
+//            try {
+//                thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            finish();
+//        }
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -224,14 +224,14 @@ public class PublishActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (checkEmpty()) {
-                    Publish publishAdd = getPublish(1);
+                    Publish publishAdd = getPublish();
                     String str = GsonTool.classToJsonString(publishAdd);
                     saveOrPublish(str);
-                    setResult(1001);
+                    setResult(1);
                     Thread thread = new Thread();
 
                     try {
-                        thread.sleep(500);
+                        thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -275,7 +275,7 @@ public class PublishActivity extends Activity {
         return true;
     }
 
-    private Publish getPublish(int i) {
+    private Publish getPublish() {
         Publish publishNew = new Publish();
         try {
             String url = "";
@@ -291,7 +291,7 @@ public class PublishActivity extends Activity {
             if (type.equals("add")) {
                 publishNew.setpUser(new User((int) SharedPreferencesTool.get(this, "userId", 0)));
                 publishNew.setpAddTime(date);
-                publishNew.setpFlag(i);
+                publishNew.setpFlag(0);
                 publishNew.setpType("a");
                 publishNew.setpImg(listString.size() + "");
 
