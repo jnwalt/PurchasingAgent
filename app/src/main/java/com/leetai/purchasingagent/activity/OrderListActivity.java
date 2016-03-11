@@ -9,15 +9,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.adapter.BidedListAdapter;
 import com.leetai.purchasingagent.adapter.OrderListAdapter;
+import com.leetai.purchasingagent.adapter.PublishListAdapter;
 import com.leetai.purchasingagent.modle.Bid;
 import com.leetai.purchasingagent.modle.Order;
+import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.modle.Type;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
@@ -45,8 +49,9 @@ public class OrderListActivity extends Activity {
     HashMap<String, Object> map;
     OrderListAdapter orderListAdapter;
     List<Order> list_order;
-    String type;
+    String type, orderType;
     int userId;
+
 
     @OnItemClick(R.id.lv_order)
     public void orderItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,6 +59,7 @@ public class OrderListActivity extends Activity {
         Bundle bundle = new Bundle();
         bundle.putSerializable("order", list_order.get(position));
         intent.putExtra("bundle", bundle);
+        intent.putExtra("type", "1");
         startActivity(intent);
     }
 
@@ -62,11 +68,46 @@ public class OrderListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_list);
         ViewUtils.inject(this);
+        final Intent intent = getIntent();
 
+        orderType = intent.getStringExtra("orderType");
         type = Type.ACTION_TYPE_QUERY;
+
+        initTitle();
+        getList();
+
+
+    }
+
+    private void initTitle() {
+        View view = findViewById(R.id.in_title);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        ImageView iv_title = (ImageView) view.findViewById(R.id.iv_back);
+        iv_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        String title;
+        if (orderType.equals("0")) {
+            title = "待付款";
+        } else if (orderType.equals("1")) {
+            title = "待发货";
+        } else if (orderType.equals("2")) {
+            title = "待收货";
+        } else if (orderType.equals("3")) {
+            title = "待评价";
+        } else {
+            title = "全部";
+        }
+        tv_title.setText(title);
+
+    }
+
+    private void getList() {
         userId = (int) SharedPreferencesTool.get(OrderListActivity.this, "userId", 0);
-        // Log.i("获取userID=",SharedPreferencesTool.get(BidedListActivity.this,"userId",0)+"");
-        String url = HttpTool.getUrl(new String[]{type, userId + ""}, "OrderServlet");
+        String url = HttpTool.getUrl(new String[]{type, userId + "", orderType}, "OrderServlet");
         HttpUtils http = new HttpUtils();
         http.configCurrentHttpCacheExpiry(100);
         http.send(HttpRequest.HttpMethod.GET, url,
@@ -83,15 +124,17 @@ public class OrderListActivity extends Activity {
                         for (int d = 0; d < list_order.size(); d++) {
                             map = new HashMap<String, Object>();
 
-                            try {//  map.put("tv_username", list_bid.get(d).getTitle());
-                                String aaa = list_order.get(d).getBid().getPublish().getpTitle();
-                                Log.i("aaat=", aaa);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+//                            try {//  map.put("tv_username", list_bid.get(d).getTitle());
+//                                String aaa = list_order.get(d).getBid().getPublish().getpTitle();
+//                                Log.i("aaat=", aaa);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
                             map.put("tv_title", list_order.get(d).getBid().getPublish().getpTitle());
                             map.put("tv_description", list_order.get(d).getBid().getPublish().getpDescription());
-                            map.put("ps_id", list_order.get(d).getPsId());
+                            map.put("p_id", list_order.get(d).getBid().getPublish().getpId());
+                            map.put("user_id", list_order.get(d).getBid().getPublish().getpUser().getUserId());
+                            map.put("tv_price", list_order.get(d).getBid().getPublish().getpPrice());
                             listmap.add(map);
                         }
                         orderListAdapter = new OrderListAdapter(OrderListActivity.this, listmap, list_order);
@@ -106,5 +149,4 @@ public class OrderListActivity extends Activity {
                 });
 
     }
-
 }

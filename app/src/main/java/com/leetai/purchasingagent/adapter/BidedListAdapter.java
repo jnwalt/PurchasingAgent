@@ -48,12 +48,12 @@ import java.util.Map;
 public class BidedListAdapter extends BaseAdapter {
     Context context;
     List<Map<String, Object>> list;
-
+    TextView tv_memo;
     TextView tv_username;
     TextView tv_s_address;
     TextView tv_price;
     Button btn_choose;
-ImageView iv_head;
+    ImageView iv_head;
 
     List<Bid> list_bided;
     Fragment fragment;
@@ -88,18 +88,17 @@ ImageView iv_head;
         tv_s_address = (TextView) view.findViewById(R.id.tv_s_address);
         tv_username = (TextView) view.findViewById(R.id.tv_username);
         tv_price = (TextView) view.findViewById(R.id.tv_price);
+        tv_memo = (TextView) view.findViewById(R.id.tv_memo);
         btn_choose = (Button) view.findViewById(R.id.btn_choose);
-        iv_head= (ImageView) view.findViewById(R.id.iv_head);
+        iv_head = (ImageView) view.findViewById(R.id.iv_head);
 
         tv_username.setText(getItem(position).get("tv_username").toString());
         tv_price.setText(getItem(position).get("tv_price").toString());
         tv_s_address.setText(getItem(position).get("tv_s_address").toString());
-
+        tv_memo.setText(getItem(position).get("tv_s_memo").toString());
         BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(context);
-        String path  = Tools.getUserHeadURL(Tools.getUserId(context)) ;
+        String path = Tools.getUserHeadURL((Integer) getItem(position).get("s_user_id"));
         bitmapUtils.display(iv_head, path, new CustomBitmapLoadCallBack());
-
-
 
 
         btn_choose.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +115,8 @@ ImageView iv_head;
                             public void onSuccess(ResponseInfo<String> responseInfo) {
                                 ToastTool.showToast(context, "成功！");
                                 Intent intent = new Intent(context, OrderActivity.class);
-                                intent.putExtra("type","0");
-                                intent.putExtra("sId",s_id+"");
+                                intent.putExtra("type", "0");
+                                intent.putExtra("sId", s_id + "");
                                 context.startActivity(intent);
                             }
 

@@ -17,7 +17,8 @@
             android:id="@+id/iv_head"
             style="ImageHeadStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/defaulthad" />
 
 
         <TextView
@@ -28,48 +29,112 @@
             />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_price"
+    <LinearLayout
+        android:id="@+id/ll_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@id/ll_head"
+        android:layout_alignTop="@+id/ll_head"
         android:layout_toRightOf="@+id/ll_head"
-        android:text="1654"
-        android:textColor="@color/base_color"
-        android:textSize="20sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_s_address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tv_price"
-        android:text="俄罗斯"
-        android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ll_head"
+                android:layout_toRightOf="@+id/ll_head"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="1654"
+                android:textColor="@color/base_color"
+                android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_price"
-        android:layout_toRightOf="@+id/ll_head"
+            <TextView
+                android:id="@+id/tv_s_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_price"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="俄罗斯"
+                android:textSize="20sp" />
+        </LinearLayout>
 
-        android:layout_marginLeft="10dp"
-        android:text="成交34笔"
-        android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/tv_level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_s_address"
+            <TextView
+                android:id="@+id/tv_memo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="我就啥地方可那是的法师打发斯蒂芬阿卡丽数据的罚款数据的开发及阿斯顿发射点发空 "
+                android:maxEms="11"
+                android:textColor="@color/text_color"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:ellipsize="end"/>
+        </LinearLayout>
 
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tv_count"
-        android:text="****"
-        android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_count1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="成交"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_count2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="34"
+                android:textColor="@color/base_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_count3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="笔"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ll_head"
+                android:layout_below="@+id/tv_s_address"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/tv_count3"
+                android:text="****"
+                android:textColor="@color/text_color"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_choose"

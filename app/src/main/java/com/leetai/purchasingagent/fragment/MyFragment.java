@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
@@ -42,7 +43,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.io.File;
 
-public class MyFragment extends Fragment {
+public class MyFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -55,6 +56,7 @@ public class MyFragment extends Fragment {
     TextView tv_setting;
     TextView tv_username;
     ImageView iv_head;
+    LinearLayout ll_setting;
     private String mParam1;
     private String mParam2;
     BitmapUtils bitmapUtils;
@@ -99,11 +101,10 @@ public class MyFragment extends Fragment {
         BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(getActivity());
         String path = Tools.getUserHeadPath(userId);
         bitmapUtils.clearCache(path);
-        bitmapUtils.display(iv_head, path,new CustomBitmapLoadCallBack());
+        bitmapUtils.display(iv_head, path, new CustomBitmapLoadCallBack());
 
-
-
-        tv_username= (TextView) view.findViewById(R.id.tv_username);
+        ll_setting= (LinearLayout) view.findViewById(R.id.ll_setting);
+        tv_username = (TextView) view.findViewById(R.id.tv_username);
         tv_username.setText(Tools.getUserName(getActivity()));
 
         tv_accout = (TextView) view.findViewById(R.id.tv_accout);
@@ -125,31 +126,85 @@ public class MyFragment extends Fragment {
         MyIBtn4.setImageResource(R.drawable.my_good);
         MyIBtn4.setText("待评价");
         MyIBtn4.setTextSize(13.0f);
-        tv_accout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UserinfoActivity.class);
-                startActivity(intent);
-            }
-        });
-        tv_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent);
-            }
-        });
-        tv_all_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OrderListActivity.class);
-                startActivity(intent);
-            }
-        });
+        tv_accout.setOnClickListener(this);
+        tv_setting.setOnClickListener(this);
+        tv_all_order.setOnClickListener(this);
+        ll_setting.setOnClickListener(this);
+        MyIBtn1.setOnClickListener(this);
+        MyIBtn2.setOnClickListener(this);
+        MyIBtn3.setOnClickListener(this);
+        MyIBtn4.setOnClickListener(this);
 
+
+//        tv_accout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), UserinfoActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        tv_setting.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), SettingActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        tv_all_order.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), OrderListActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
 
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.ll_setting:
+                intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_accout:
+                intent = new Intent(getActivity(), UserinfoActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_setting:
+                intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tv_all_order:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                intent.putExtra("orderType", "all");
+                startActivity(intent);
+                break;
+            case R.id.MyImgBtn1:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                intent.putExtra("orderType", "0");
+                startActivity(intent);
+                break;
+            case R.id.MyImgBtn2:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                intent.putExtra("orderType", "1");
+                startActivity(intent);
+                break;
+            case R.id.MyImgBtn3:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                intent.putExtra("orderType", "2");
+                startActivity(intent);
+                break;
+            case R.id.MyImgBtn4:
+                intent = new Intent(getActivity(), OrderListActivity.class);
+                intent.putExtra("orderType", "3");
+                startActivity(intent);
+                break;
+        }
+    }
+
     public class CustomBitmapLoadCallBack extends
             DefaultBitmapLoadCallBack<ImageView> {
         @Override

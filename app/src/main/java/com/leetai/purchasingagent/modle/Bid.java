@@ -4,43 +4,36 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Bid implements Serializable {
-	private Integer sId;
+    private Integer sId;
 
-	private Double sPrice;
+    private Double sPrice;
 
-	// private Integer sUserId;
-	private User sUser;
+    private User sUser;
 
-	private String sAddress;
+    private String sAddress;
 
-	// private Integer pId;
-	private Publish publish;
-	
-	private Date sAddTime;
+    private Publish publish;
 
-	public Integer getsId() {
-		return sId;
-	}
+    private Date sAddTime;
 
-	public void setsId(Integer sId) {
-		this.sId = sId;
-	}
+    private String sMemo;
 
-	public Double getsPrice() {
-		return sPrice;
-	}
+    public Integer getsId() {
+        return sId;
+    }
 
-	public void setsPrice(Double sPrice) {
-		this.sPrice = sPrice;
-	}
+    public void setsId(Integer sId) {
+        this.sId = sId;
+    }
 
-	// public Integer getsUserId() {
-	// return sUserId;
-	// }
-	//
-	// public void setsUserId(Integer sUserId) {
-	// this.sUserId = sUserId;
-	// }
+    public Double getsPrice() {
+        return sPrice;
+    }
+
+    public void setsPrice(Double sPrice) {
+        this.sPrice = sPrice;
+    }
+ 
 	public User getsUser() {
 		return sUser;
 	}
@@ -50,26 +43,14 @@ public class Bid implements Serializable {
 	}
 
 	public String getsAddress() {
-		return sAddress;
-	}
+        return sAddress;
+    }
 
-	public void setsAddress(String sAddress) {
-		this.sAddress = sAddress == null ? null : sAddress.trim();
-	}
-
-//	public Integer getpId() {
-//		return pId;
-//	}
-//
-//	public void setpId(Integer pId) {
-//		this.pId = pId;
-//	}
-
-	public Date getsAddTime() {
-		return sAddTime;
-	}
-
-	public Publish getPublish() {
+    public void setsAddress(String sAddress) {
+        this.sAddress = sAddress == null ? null : sAddress.trim();
+    }
+ 
+    public Publish getPublish() {
 		return publish;
 	}
 
@@ -77,7 +58,19 @@ public class Bid implements Serializable {
 		this.publish = publish;
 	}
 
-	public void setsAddTime(Date sAddTime) {
-		this.sAddTime = sAddTime;
-	}
+	public Date getsAddTime() {
+        return sAddTime;
+    }
+
+    public void setsAddTime(Date sAddTime) {
+        this.sAddTime = sAddTime;
+    }
+
+    public String getsMemo() {
+        return sMemo;
+    }
+
+    public void setsMemo(String sMemo) {
+        this.sMemo = sMemo == null ? null : sMemo.trim();
+    }
 }

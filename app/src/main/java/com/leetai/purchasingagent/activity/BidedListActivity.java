@@ -75,7 +75,9 @@ public class BidedListActivity extends Activity {
                             map.put("tv_price", list_bid.get(d).getsPrice());
                             map.put("tv_s_address", list_bid.get(d).getsAddress());
                             map.put("tv_username", list_bid.get(d).getsUser().getUsername());
+                            map.put("tv_s_memo", list_bid.get(d).getsMemo());
                             map.put("s_id", list_bid.get(d).getsId());
+                            map.put("s_user_id", list_bid.get(d).getsUser().getUserId());
                             listmap.add(map);
                         }
                         bidedListAdapter = new BidedListAdapter(BidedListActivity.this, listmap, list_bid);

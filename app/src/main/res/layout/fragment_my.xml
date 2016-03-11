@@ -92,30 +92,32 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:clickable="true"
+
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/tv_all_order"
-                    android:layout_width="60dip"
-                    android:layout_height="30dip"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:text="我的订单"
                     android:textColor="#011333"
                     android:textSize="15sp"
-                    android:clickable="true"/>
+                    android:layout_weight="1"
+                  />
 
                 <TextView
-                    android:id="@+id/tv_ord"
-                    android:layout_width="fill_parent"
-                    android:layout_height="30dip"
-                    android:focusable="true"
+                    android:id="@+id/tv_all_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="right|center_vertical"
+                    android:clickable="true"
                     android:text="查看全部订单 >"
                     android:textColor="#a318182c"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -184,25 +186,28 @@
                 android:layout_marginRight="10dp"
                 android:clickable="true"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1"
+               >
 
                 <TextView
-                    android:layout_width="60dip"
-                    android:layout_height="30dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:text="我的账户"
                     android:textColor="#011333"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_o00"
-                    android:layout_width="fill_parent"
-                    android:layout_height="30dip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:focusable="true"
                     android:gravity="right|center_vertical"
-
                     android:textColor="#a318182c"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+               />
 
             </LinearLayout>
 
@@ -275,6 +280,7 @@
                 android:background="@color/Gap_color" />
 
             <LinearLayout
+                android:id="@+id/ll_setting"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

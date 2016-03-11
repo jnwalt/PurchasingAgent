@@ -3,12 +3,12 @@ package com.leetai.purchasingagent.modle;
 import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
-    public User (){
+public class User implements Serializable {
+    public User(){
 
     }
-    public User(int userId){
-        setUserId(userId);
+    public  User(int userId){
+        this.userId = userId;
     }
     private Integer userId;
 
@@ -31,6 +31,8 @@ public class User implements Serializable{
     private String country;
 
     private Integer level;
+
+    private Integer dealCount;
 
     public Integer getUserId() {
         return userId;
@@ -118,5 +120,13 @@ public class User implements Serializable{
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Integer getDealCount() {
+        return dealCount;
+    }
+
+    public void setDealCount(Integer dealCount) {
+        this.dealCount = dealCount;
     }
 }
