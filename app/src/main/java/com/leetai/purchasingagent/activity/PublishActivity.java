@@ -30,6 +30,7 @@ import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.ImageTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -161,14 +162,34 @@ public class PublishActivity extends Activity {
 //            finish();
 //        }
 //    }
+View.OnClickListener publishListener = new View.OnClickListener(){
+
+    @Override
+    public void onClick(View v) {
+        if (checkEmpty()) {
+            Publish publishAdd = getPublish();
+            String str = GsonTool.classToJsonString(publishAdd);
+            saveOrPublish(str);
+            setResult(1);
+            Thread thread = new Thread();
+
+            try {
+                thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            finish();
+        }
+    }
+};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish);
         ViewUtils.inject(this);
-        initTitle();
-
+       // initTitle();
+        Tools.initTitleView(PublishActivity.this,getWindow(),R.string.title_activity_publish,R.string.save,publishListener,true);
         listimg.add(im_pic1);
         listimg.add(im_pic2);
         listimg.add(im_pic3);
@@ -208,38 +229,6 @@ public class PublishActivity extends Activity {
 
     }
 
-    private void initTitle() {
-        RelativeLayout rl = (RelativeLayout) findViewById(R.id.in_title);
-        TextView tv_title = (TextView) rl.findViewById(R.id.tv_title);
-        TextView tv_setting = (TextView) rl.findViewById(R.id.tv_setting);
-        tv_title.setText("发布");
-        ImageView iv_back = (ImageView) rl.findViewById(R.id.iv_back);
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        tv_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkEmpty()) {
-                    Publish publishAdd = getPublish();
-                    String str = GsonTool.classToJsonString(publishAdd);
-                    saveOrPublish(str);
-                    setResult(1);
-                    Thread thread = new Thread();
-
-                    try {
-                        thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    finish();
-                }
-            }
-        });
-    }
 
     public class CustomBitmapLoadCallBack extends
             DefaultBitmapLoadCallBack<ImageView> {

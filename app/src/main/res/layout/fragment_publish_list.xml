@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/in_title"
-        layout="@layout/view_publishlist_title" />
+        layout="@layout/view_common_title" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/lv_publish"

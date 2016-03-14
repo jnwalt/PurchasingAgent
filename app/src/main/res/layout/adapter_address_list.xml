@@ -3,62 +3,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="litai"
-        android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tv_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_toRightOf="@+id/tv_name"
-        android:text="18615220425"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/AddressTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="litai" />
 
-    <TextView
-        android:id="@+id/tv_region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_name"
-        android:layout_alignParentLeft="true"
-        android:text="山东济南历城区"
-        android:textSize="18sp" />
-    <TextView
-        android:id="@+id/tv_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_region"
-        android:layout_below="@+id/tv_name"
-        android:layout_marginLeft="50dp"
-        android:text="工业北路21号济钢集团"
-        android:textSize="18sp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/AddressTextStyle"
+            android:layout_marginLeft="50dp"
+            android:layout_toRightOf="@+id/tv_name"
+            android:text="18615220425" />
+
+        <TextView
+            android:id="@+id/tv_region"
+            style="@style/AddressTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_name"
+            android:text="山东济南历城区" />
+
+        <TextView
+            android:id="@+id/tv_detail"
+            style="@style/AddressTextStyle"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_region"
+            android:text="工业北路21号济钢集团" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="@color/Gap_color" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+
+        <CheckBox
+            android:id="@+id/cb_default"
+            android:text="默认"
+            android:textColor="@color/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"/>
+
         <Button
             android:id="@+id/btn_remove"
-            style="@style/ButtonStyle"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            style="@style/SmallButtonStyle"
+            android:layout_width="38dp"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="删除" />
 
         <Button
             android:id="@+id/btn_modify"
-            style="@style/ButtonStyle"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            style="@style/SmallButtonStyle"
+            android:layout_width="38dp"
+            android:layout_height="20dp"
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@+id/btn_remove"
             android:text="编辑" />

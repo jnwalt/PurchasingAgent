@@ -30,6 +30,7 @@ import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.bitmap.PauseOnScrollListener;
@@ -89,11 +90,21 @@ public class PublishListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_publish_list, container, false);
         init(view);
-        initTitle(view);
+       // initTitle(view);
+        Tools.initTitleView(view,R.string.title_activity_publish,R.string.title_activity_publish,publishListener);
         getList();
         return view;
     }
+    View.OnClickListener publishListener = new View.OnClickListener(){
 
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), PublishActivity.class);
+            intent.putExtra("type", "add");
+            //intent.putExtra("id","0");
+            startActivityForResult(intent, 0);
+        }
+    };
     private void init(View view) {
         lv_publish = (PullToRefreshListView) view.findViewById(R.id.lv_publish);
         lv_publish.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
@@ -203,26 +214,7 @@ public class PublishListFragment extends Fragment {
         }
 
     }
-
-    private void initTitle(View view) {
-        RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.in_title);
-        TextView tv_title = (TextView) rl.findViewById(R.id.tv_title);
-        TextView tv_setting = (TextView) rl.findViewById(R.id.tv_setting);
-        tv_title.setText("发布");
-        ImageView iv_back = (ImageView) rl.findViewById(R.id.iv_back);
-        iv_back.setVisibility(View.INVISIBLE);
-        tv_setting.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-                                              Intent intent = new Intent(getActivity(), PublishActivity.class);
-                                              intent.putExtra("type", "add");
-                                              //intent.putExtra("id","0");
-                                              startActivityForResult(intent, 0);
-                                          }
-                                      }
-        );
-    }
-
+ 
     @Override
     public void onResume() {
         super.onResume();

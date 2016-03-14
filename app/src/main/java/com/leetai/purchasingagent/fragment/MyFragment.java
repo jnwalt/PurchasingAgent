@@ -91,6 +91,7 @@ public class MyFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_my, container, false);
+        Tools.initTitleView(view,R.string.title_fragment_my,R.string.title_fragment_my,null);
         bitmapUtils = BitMapTool.getBitmapUtils(getActivity());
         init(view);
         return view;

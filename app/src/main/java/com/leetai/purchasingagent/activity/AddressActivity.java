@@ -11,12 +11,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.google.gson.Gson;
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.modle.Address;
+import com.leetai.purchasingagent.tools.BaiduMapTool;
 import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -34,7 +40,7 @@ import java.util.Date;
 public class AddressActivity extends Activity {
 
     Address address = new Address();
-private int    REQUEST_CODE;
+    private int REQUEST_CODE;
     String type;
     @ViewInject(R.id.et_name)
     EditText et_name;
@@ -51,36 +57,54 @@ private int    REQUEST_CODE;
     @ViewInject(R.id.btn_save)
     Button btn_save;
 
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListerner();
+
+    public class MyLocationListerner implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            String add = location.getCountry()+location.getProvince()+location.getCity()+location.getDistrict();
+            if (!TextUtils.isEmpty(location.getCity())){
+                et_region.setText(add);
+            }else {
+            Intent intent = new Intent(AddressActivity.this, RegionProvinceActivity.class);
+            startActivity(intent);}
+        }
+    }
+
     @OnTouch(R.id.et_region)
     public boolean regionClick(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            Intent intent = new Intent(AddressActivity.this, RegionProvinceActivity.class);
-            startActivity(intent);
+            mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+            mLocationClient.registerLocationListener(myListener);    //注册监听函数
+            mLocationClient.setLocOption(BaiduMapTool.getOption());
+            mLocationClient.start();
+
         }
         return true;
     }
 
-    @OnClick(R.id.btn_save)
-    public void saveClick(View view) {
-        if (checkEmpty()) {
-            Address addressAdd = getAddress();
-            String str = GsonTool.classToJsonString(addressAdd);
-            save(str);
-            String defaultAddress = addressAdd.getRegion()+"   "+addressAdd.getDetail()+"   "+addressAdd.getName()+"   "+addressAdd.getPhone();
-            SharedPreferencesTool.put(AddressActivity.this, "defaultAddress", defaultAddress);
-            Intent intent = new Intent();
-            intent.putExtra("defaultAddress",defaultAddress);
-            setResult(REQUEST_CODE,intent);
-            Thread thread = new Thread();
-            try {
-                thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            finish();
-        }
-
-    }
+//    @OnClick(R.id.btn_save)
+//    public void saveClick(View view) {
+//        if (checkEmpty()) {
+//            Address addressAdd = getAddress();
+//            String str = GsonTool.classToJsonString(addressAdd);
+//            save(str);
+//            String defaultAddress = addressAdd.getRegion()+"   "+addressAdd.getDetail()+"   "+addressAdd.getName()+"   "+addressAdd.getPhone();
+//            SharedPreferencesTool.put(AddressActivity.this, "defaultAddress", defaultAddress);
+//            Intent intent = new Intent();
+//            intent.putExtra("defaultAddress",defaultAddress);
+//            setResult(REQUEST_CODE,intent);
+//            Thread thread = new Thread();
+//            try {
+//                thread.sleep(500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            finish();
+//        }
+//
+//    }
 
 
     @Override
@@ -89,8 +113,9 @@ private int    REQUEST_CODE;
         setContentView(R.layout.activity_address);
         ViewUtils.inject(this);
         Intent intent = getIntent();
-        REQUEST_CODE = intent.getIntExtra("req_code",0);
+        REQUEST_CODE = intent.getIntExtra("req_code", 0);
         type = intent.getStringExtra("type");
+        Tools.initTitleView(AddressActivity.this, getWindow(), R.string.title_activity_address, R.string.save, listener, true);
 
         if (type.equals("modify")) {
 
@@ -116,6 +141,30 @@ private int    REQUEST_CODE;
         }
 
     }
+
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (checkEmpty()) {
+                Address addressAdd = getAddress();
+                String str = GsonTool.classToJsonString(addressAdd);
+                save(str);
+                String defaultAddress = addressAdd.getRegion() + "   " + addressAdd.getDetail() + "   " + addressAdd.getName() + "   " + addressAdd.getPhone();
+                SharedPreferencesTool.put(AddressActivity.this, "defaultAddress", defaultAddress);
+                Intent intent = new Intent();
+                intent.putExtra("defaultAddress", defaultAddress);
+                setResult(REQUEST_CODE, intent);
+                Thread thread = new Thread();
+                try {
+                    thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                finish();
+            }
+
+        }
+    };
 
     private boolean checkEmpty() {
         if (TextUtils.isEmpty(et_name.getText().toString())) {
@@ -210,7 +259,15 @@ private int    REQUEST_CODE;
     protected void onRestart() {
         super.onRestart();
         String region = SharedPreferencesTool.get(AddressActivity.this, "region", "未找到").toString();
-       // Log.i("onRestart", region);
+        // Log.i("onRestart", region);
         et_region.setText(region);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
     }
 }

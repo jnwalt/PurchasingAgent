@@ -19,6 +19,7 @@ import com.leetai.purchasingagent.modle.Publish;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -46,6 +47,7 @@ public class BidedListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bided_list);
         ViewUtils.inject(this);
+        Tools.initTitleView(BidedListActivity.this,getWindow(),R.string.title_activity_choose,R.string.title_activity_choose,null,true);
         Intent intent = getIntent();
         p_id = intent.getIntExtra("p_id", 0);
         getList();

@@ -7,6 +7,9 @@ import android.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.fragment.MyFragment;
 import com.leetai.purchasingagent.fragment.PublishListFragment;
 import com.leetai.purchasingagent.fragment.RecommendFragment;
+import com.leetai.purchasingagent.tools.ToastTool;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -27,6 +31,19 @@ public class MainActivity extends Activity {
     PublishListFragment publishListFragment;
     RecommendFragment recommendFragment;
     MyFragment myFragment;
+
+
+    // 定义一个变量，来标识是否退出
+    private static boolean isExit = false;
+
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
     @ViewInject(R.id.iv_recomend)
     ImageView btn_recomend;
     @ViewInject(R.id.iv_publish)
@@ -150,5 +167,29 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            ToastTool.showToast(MainActivity.this, "再按一次退出程序");
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+//                    Toast.LENGTH_SHORT).show();
+            // 利用handler延迟发送更改状态信息
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            finish();
+            System.exit(0);
+        }
     }
 }

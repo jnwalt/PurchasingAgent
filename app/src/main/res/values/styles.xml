@@ -194,4 +194,15 @@
         <item name="android:textSize">16sp</item>
         <item name="android:focusable">true</item>
     </style>
+
+    <style name="AddressTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:focusable">true</item>
+    </style>
 </resources>

@@ -1,5 +1,6 @@
 package com.leetai.purchasingagent.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 import com.leetai.purchasingagent.R;
 import com.leetai.purchasingagent.tools.Tools;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends Activity {
 
     private static final int EXIT = 1;
 
@@ -22,9 +23,11 @@ public class SettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-      //  Tools.initTitleView(getWindow(), "设置");
+        //初始化标题栏
+        Tools.initTitleView(SettingActivity.this, getWindow(), R.string.title_activity_setting,  R.string.title_activity_setting, null, true);
 
-        TextView tv_exit = (TextView) this.findViewById(R.id.tv_exit);
+        TextView tv_exit = (TextView) getWindow().findViewById(R.id.tv_exit);
+      //  tv_exit.setText("adfasdads");
         tv_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

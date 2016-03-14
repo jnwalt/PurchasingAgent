@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
@@ -37,7 +38,7 @@ public class AddressListAdapter extends BaseAdapter {
     TextView tv_phone;
     TextView tv_region;
     TextView tv_detail;
-
+    CheckBox cb_default;
     Context context;
     List<Map<String, Object>> list;
     List<Address> list_address;
@@ -78,13 +79,17 @@ public class AddressListAdapter extends BaseAdapter {
         tv_detail = (TextView) view.findViewById(R.id.tv_detail);
         btn_modify = (Button) view.findViewById(R.id.btn_modify);
         btn_remove = (Button) view.findViewById(R.id.btn_remove);
-
+        cb_default = (CheckBox) view.findViewById(R.id.cb_default);
 
         tv_name.setText(list.get(position).get("tv_name").toString());
         tv_phone.setText(list.get(position).get("tv_phone").toString());
         tv_region.setText(list.get(position).get("tv_region").toString());
         tv_detail.setText(list.get(position).get("tv_detail").toString());
-
+        if ((int) list.get(position).get("cb_default") == 0) {
+            cb_default.setChecked(false);
+        } else {
+            cb_default.setChecked(true);
+        }
 
         btn_remove.setOnClickListener(new View.OnClickListener() {
             @Override

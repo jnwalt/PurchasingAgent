@@ -6,7 +6,7 @@
     tools:context="com.leetai.purchasingagent.activity.PublishActivity">
     <include
         android:id="@+id/in_title"
-        layout="@layout/view_publishlist_title" />
+        layout="@layout/view_common_title" />
     <!--<TextView-->
         <!--android:id="@+id/tv_title"-->
         <!--style="@style/TitleStyle"-->

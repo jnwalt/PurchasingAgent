@@ -64,7 +64,7 @@ public class OrderActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         ViewUtils.inject(this);
-
+        Tools.initTitleView(OrderActivity.this, getWindow(), R.string.title_activity_order_info, R.string.title_activity_order_info, null, true);
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         if (type.equals("0")) {

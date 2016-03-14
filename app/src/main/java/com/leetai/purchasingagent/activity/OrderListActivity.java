@@ -27,6 +27,7 @@ import com.leetai.purchasingagent.tools.GsonTool;
 import com.leetai.purchasingagent.tools.HttpTool;
 import com.leetai.purchasingagent.tools.SharedPreferencesTool;
 import com.leetai.purchasingagent.tools.ToastTool;
+import com.leetai.purchasingagent.tools.Tools;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -49,7 +50,7 @@ public class OrderListActivity extends Activity {
     HashMap<String, Object> map;
     OrderListAdapter orderListAdapter;
     List<Order> list_order;
-    String type, orderType;
+    String type, orderType,title;
     int userId;
 
 
@@ -73,23 +74,7 @@ public class OrderListActivity extends Activity {
         orderType = intent.getStringExtra("orderType");
         type = Type.ACTION_TYPE_QUERY;
 
-        initTitle();
-        getList();
 
-
-    }
-
-    private void initTitle() {
-        View view = findViewById(R.id.in_title);
-        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
-        ImageView iv_title = (ImageView) view.findViewById(R.id.iv_back);
-        iv_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        String title;
         if (orderType.equals("0")) {
             title = "待付款";
         } else if (orderType.equals("1")) {
@@ -101,7 +86,11 @@ public class OrderListActivity extends Activity {
         } else {
             title = "全部";
         }
-        tv_title.setText(title);
+        Tools.initTitleView(OrderListActivity.this, getWindow(), title, title, null, true);
+
+
+        getList();
+
 
     }
 

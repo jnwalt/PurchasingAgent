@@ -11,7 +11,7 @@
 
     <include
         android:id="@+id/in_title"
-        layout="@layout/view_my_title" />
+        layout="@layout/view_common_title" />
 
     <ScrollView
         android:id="@+id/scrollView"
