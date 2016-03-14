@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.activity.AddressListActivity;
 import com.leetai.purchasingagent.activity.OrderListActivity;
 import com.leetai.purchasingagent.activity.SettingActivity;
 import com.leetai.purchasingagent.activity.UserinfoActivity;
@@ -55,8 +56,9 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     TextView tv_accout;
     TextView tv_setting;
     TextView tv_username;
+    TextView tv_address;
     ImageView iv_head;
-    LinearLayout ll_setting;
+
     private String mParam1;
     private String mParam2;
     BitmapUtils bitmapUtils;
@@ -103,13 +105,15 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         bitmapUtils.clearCache(path);
         bitmapUtils.display(iv_head, path, new CustomBitmapLoadCallBack());
 
-        ll_setting= (LinearLayout) view.findViewById(R.id.ll_setting);
+
         tv_username = (TextView) view.findViewById(R.id.tv_username);
         tv_username.setText(Tools.getUserName(getActivity()));
 
         tv_accout = (TextView) view.findViewById(R.id.tv_accout);
-        tv_setting = (TextView) view.findViewById(R.id.tv_setting);
+        tv_setting = (TextView) view.findViewById(R.id.tv_setting1);
         tv_all_order = (TextView) view.findViewById(R.id.tv_all_order);
+        tv_address = (TextView) view.findViewById(R.id.tv_address);
+
         MyIBtn1 = (MyImgBtn) view.findViewById(R.id.MyImgBtn1);
         MyIBtn1.setImageResource(R.drawable.my_pay);
         MyIBtn1.setText("待付款");
@@ -126,10 +130,12 @@ public class MyFragment extends Fragment implements View.OnClickListener {
         MyIBtn4.setImageResource(R.drawable.my_good);
         MyIBtn4.setText("待评价");
         MyIBtn4.setTextSize(13.0f);
+
         tv_accout.setOnClickListener(this);
         tv_setting.setOnClickListener(this);
         tv_all_order.setOnClickListener(this);
-        ll_setting.setOnClickListener(this);
+        tv_address.setOnClickListener(this);
+
         MyIBtn1.setOnClickListener(this);
         MyIBtn2.setOnClickListener(this);
         MyIBtn3.setOnClickListener(this);
@@ -165,15 +171,17 @@ public class MyFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
-            case R.id.ll_setting:
-                intent = new Intent(getActivity(), SettingActivity.class);
+
+            case R.id.tv_address:
+                intent = new Intent(getActivity(), AddressListActivity.class);
                 startActivity(intent);
                 break;
+
             case R.id.tv_accout:
                 intent = new Intent(getActivity(), UserinfoActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.tv_setting:
+            case R.id.tv_setting1:
                 intent = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent);
                 break;

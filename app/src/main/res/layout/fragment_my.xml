@@ -2,16 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="top"
     android:layout_marginLeft="0dp"
     android:layout_marginRight="0dp"
     android:layout_marginTop="0dp"
     android:orientation="vertical"
-    android:layout_gravity="top"
     tools:context="com.leetai.purchasingagent.fragment.MyFragment">
 
     <include
         android:id="@+id/in_title"
         layout="@layout/view_my_title" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -48,9 +49,9 @@
                         android:id="@+id/iv_head"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:clickable="true"
                         android:gravity="right"
-                        android:src="@drawable/launcher_bg"
-                        android:clickable="true"/>
+                        android:src="@drawable/defaulthad" />
 
                     <TextView
                         android:id="@+id/tv_username"
@@ -89,35 +90,22 @@
                 android:layout_height="20dip"
                 android:background="@color/Gap_color" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="5dp">
+            <LinearLayout style="@style/FragmentMyLLStyle">
 
                 <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left|center_vertical"
-                    android:text="我的订单"
-                    android:textColor="#011333"
-                    android:textSize="15sp"
+                    style="@style/FragmentMyTextStyle"
                     android:layout_weight="1"
-                  />
+                    android:gravity="left|center_vertical"
+                    android:text="我的订单" />
 
                 <TextView
                     android:id="@+id/tv_all_order"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right|center_vertical"
+                    style="@style/FragmentMyTextStyle"
+                    android:layout_weight="1"
                     android:clickable="true"
+                    android:gravity="right|center_vertical"
                     android:text="查看全部订单 >"
-                    android:textColor="#a318182c"
-                    android:textSize="14sp"
-                    android:layout_weight="1"/>
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -181,33 +169,22 @@
                 android:background="@color/Gap_color" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:weightSum="1"
-               >
+                style="@style/FragmentMyLLStyle"
+                android:layout_marginRight="10dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/FragmentMyTextStyle"
                     android:gravity="left|center_vertical"
                     android:text="我的账户"
-                    android:textColor="#011333"
-                    android:textSize="15sp"
-                    />
+                    android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tv_o00"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:gravity="right|center_vertical"
-                    android:textColor="#a318182c"
-                    android:textSize="14sp"
-               />
+                <!--<TextView-->
+                <!--android:id="@+id/tv_o00"-->
+                <!--style="@style/FragmentMyTextTextStyle"-->
+                <!--android:focusable="true"-->
+                <!--android:gravity="right|center_vertical"-->
+                <!--android:textSize="14sp"-->
+                <!--/>-->
 
             </LinearLayout>
 
@@ -217,12 +194,8 @@
                 android:background="@color/Gap_color" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible"
+                style="@style/FragmentMyLLStyle"
+                android:padding="10dp"
                 android:weightSum="1">
 
                 <LinearLayout
@@ -232,19 +205,21 @@
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
+                    android:padding="10dp"
                     android:visibility="visible">
 
                     <TextView
                         android:id="@+id/te"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
+                        style="@style/FragmentMyTextStyle"
+                        android:layout_gravity="center"
+                        android:text="0"
+                        android:textColor="@color/base_color"
+                        android:textSize="22sp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/FragmentMyTextStyle"
                         android:layout_gravity="center"
-                        android:text="账户余额" />
+                        android:text="我的积分" />
 
                 </LinearLayout>
 
@@ -255,17 +230,19 @@
                     android:clickable="true"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
+                    android:padding="10dp"
                     android:visibility="visible">
 
                     <TextView
                         android:id="@+id/tv_tic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
+                        style="@style/FragmentMyTextStyle"
+                        android:layout_gravity="center"
+                        android:text="0"
+                        android:textColor="@color/base_color"
+                        android:textSize="22sp" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/FragmentMyTextStyle"
                         android:layout_gravity="center"
                         android:text="优惠券" />
 
@@ -281,23 +258,25 @@
 
             <LinearLayout
                 android:id="@+id/ll_setting"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:clickable="true"
-                android:gravity="center_vertical"
+                style="@style/FragmentMyLLStyle"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:clickable="false">
 
                 <TextView
-                    android:id="@+id/tv_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="left|center_vertical"
-                    android:gravity="left|center_vertical"
+                    android:id="@+id/tv_address"
+                    style="@style/FragmentMyTextBigStyle"
+                    android:text="常用收货地址" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/Gap_color" />
+
+                <TextView
+                    android:id="@+id/tv_setting1"
+                    style="@style/FragmentMyTextBigStyle"
                     android:text="设置"
-                    android:textColor="#011333"
-                    android:textSize="16sp" />
+                />
 
 
             </LinearLayout>

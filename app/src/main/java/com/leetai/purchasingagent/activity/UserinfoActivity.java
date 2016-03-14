@@ -157,22 +157,27 @@ public class UserinfoActivity extends Activity {
         BitmapUtils bitmapUtils = BitMapTool.getBitmapUtils(UserinfoActivity.this);
         String path = Tools.getUserHeadPath(userId);
         bitmapUtils.clearCache(path);
-        bitmapUtils.display(iv_head, path ,new CustomBitmapLoadCallBack());
+        bitmapUtils.display(iv_head, path, new CustomBitmapLoadCallBack());
     }
+
     public class CustomBitmapLoadCallBack extends
             DefaultBitmapLoadCallBack<ImageView> {
         @Override
         public void onLoadCompleted(ImageView container, String uri,
                                     Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
+            bitmap = BitMapTool.cutToRound(bitmap);
             container.setImageBitmap(bitmap);
         }
 
         @Override
         public void onLoadFailed(ImageView container, String uri, Drawable drawable) {
             super.onLoadFailed(container, uri, drawable);
-            container.setImageResource(R.drawable.defaulthad);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.defaulthad);
+            bitmap = BitMapTool.cutToRound(bitmap);
+            container.setImageBitmap(bitmap);
         }
     }
+
     public void gotoLoginView() {
 
         Intent intent = new Intent(this, LoginActivity.class);
@@ -438,26 +443,26 @@ public class UserinfoActivity extends Activity {
 
             }
         }
-            switch (requestCode) {
-                case ImageTool.REQUEST_CODE_FROM_ALBUM:
-                    if (data != null) {
-                        Uri uri = data.getData();
-                        String path = ImageTool.getImageAbsolutePath(UserinfoActivity.this, uri);
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        bitmap = BitMapTool.getSmallBitmap(path);
-                        bitmap = BitMapTool.cutToCrop(bitmap);
-                        String newPath = BitMapTool.saveBitmapToLocal(bitmap, Tools.getUserId(UserinfoActivity.this) + "");
-                        iv_head.setImageBitmap(bitmap);
+        switch (requestCode) {
+            case ImageTool.REQUEST_CODE_FROM_ALBUM:
+                if (data != null) {
+                    Uri uri = data.getData();
+                    String path = ImageTool.getImageAbsolutePath(UserinfoActivity.this, uri);
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    bitmap = BitMapTool.getSmallBitmap(path);
+                    bitmap = BitMapTool.cutToCrop(bitmap);
+                    String newPath = BitMapTool.saveBitmapToLocal(bitmap, Tools.getUserId(UserinfoActivity.this) + "");
+                    iv_head.setImageBitmap(bitmap);
 
-                        saveHeadOnLine(newPath);
-                    }
-                    break;
-                case ImageTool.REQUEST_CODE_FROM_CAMERA:
+                    saveHeadOnLine(newPath);
+                }
+                break;
+            case ImageTool.REQUEST_CODE_FROM_CAMERA:
 
-                    break;
-                default:
+                break;
+            default:
 
-                    break;
+                break;
 
         }
         super.onActivityResult(requestCode, resultCode, data);

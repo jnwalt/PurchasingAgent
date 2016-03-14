@@ -8,13 +8,10 @@
     android:layout_marginTop="0dp"
     tools:context="com.leetai.purchasingagent.activity.UserinfoActivity"
     android:orientation="vertical"
-
     android:layout_gravity="top">
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="20dip"
-        android:background="#546a4690"/>
+    <include
+        android:id="@+id/in_title"
+        layout="@layout/view_common_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,7 +46,7 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="20dip"
-        android:background="#546a4690"/>
+        android:background="@color/Gap_color"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -75,5 +72,5 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="20dip"
-        android:background="#546a4690"/>
+        android:background="@color/Gap_color"/>
 </LinearLayout>

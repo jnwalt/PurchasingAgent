@@ -2,6 +2,13 @@ package com.leetai.purchasingagent.tools;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.Layout;
+import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.leetai.purchasingagent.R;
 
 /**
  * Created by pc on 2016/2/23.
@@ -56,5 +63,11 @@ public class Tools {
     public static String getUserHeadURL(int userId){
 
         return    HttpTool.getPicUrl() + "/user/" + userId + ".png";
+    }
+
+    public static void initTitleView(Window view,String title) {
+        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.in_title);
+        TextView tv_title = (TextView) linearLayout.findViewById(R.id.tv_title);
+        tv_title.setText(title);
     }
 }

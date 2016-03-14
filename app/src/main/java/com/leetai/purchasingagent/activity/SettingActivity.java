@@ -12,55 +12,59 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leetai.purchasingagent.R;
+import com.leetai.purchasingagent.tools.Tools;
 
 public class SettingActivity extends AppCompatActivity {
 
     private static final int EXIT = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        TextView tv_exit =(TextView)this.findViewById(R.id.tv_exit);
+      //  Tools.initTitleView(getWindow(), "设置");
+
+        TextView tv_exit = (TextView) this.findViewById(R.id.tv_exit);
         tv_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dialog1();
             }
         });
 
     }
 
-private void dialog1(){
-    AlertDialog.Builder builder=new AlertDialog.Builder(this);  //先得到构造器
-    builder.setTitle("提示"); //设置标题
-    builder.setMessage("是否确认退出?"); //设置内容
-   // builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
-    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss(); //关闭dialog
-            Toast.makeText(SettingActivity.this, "确认" + which, Toast.LENGTH_SHORT).show();
-        }
-    });
-    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-            Toast.makeText(SettingActivity.this, "取消" + which, Toast.LENGTH_SHORT).show();
-        }
-    });
+    private void dialog1() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);  //先得到构造器
+        builder.setTitle("提示"); //设置标题
+        builder.setMessage("是否确认退出?"); //设置内容
+        // builder.setIcon(R.mipmap.ic_launcher);//设置图标，图片id即可
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() { //设置确定按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); //关闭dialog
+                Toast.makeText(SettingActivity.this, "确认" + which, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() { //设置取消按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Toast.makeText(SettingActivity.this, "取消" + which, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-    builder.setNeutralButton("忽略", new DialogInterface.OnClickListener() {//设置忽略按钮
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-            Toast.makeText(SettingActivity.this, "忽略" + which, Toast.LENGTH_SHORT).show();
-        }
-    });
-    //参数都设置完成了，创建并显示出来
-    builder.create().show();
-}
+        builder.setNeutralButton("忽略", new DialogInterface.OnClickListener() {//设置忽略按钮
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Toast.makeText(SettingActivity.this, "忽略" + which, Toast.LENGTH_SHORT).show();
+            }
+        });
+        //参数都设置完成了，创建并显示出来
+        builder.create().show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
